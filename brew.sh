@@ -41,7 +41,6 @@ brew install vim --with-override-system-vi
 brew install grep
 brew install openssh
 brew install screen
-brew install homebrew/php/php56 --with-gmp
 
 # Install font tools.
 brew tap bramstein/webfonttools
@@ -92,6 +91,77 @@ brew install ssh-copy-id
 brew install tree
 brew install vbindiff
 brew install zopfli
+
+brew install ansible
+brew install chromedriver
+brew install colordiff
+brew install curl
+brew install dnsmasq
+brew install goaccess
+brew install graphviz
+brew install httpie
+brew install icoutils
+brew install jmeter
+brew install jpegoptim
+# brew install libressl
+brew install openssl
+brew install patchutils
+brew install percona-toolkit
+brew install pianobar
+brew install pngcrush
+
+brew reinstall --with-openssl curl
+
+# Install node
+brew install node
+
+# Install yarn
+brew install yarn
+
+# Install mysql
+brew install mysql
+# brew services start mysql
+
+# Install reddis
+brew install redis
+# brew services start redis
+
+# Install memcached
+brew install memcached
+# brew services start memcached
+
+# Install PHP
+brew tap homebrew/homebrew-php
+brew install php71 --with-homebrew-curl
+
+brew install php71-geoip
+# brew install php71-imagick
+brew install php71-mcrypt
+brew install php71-memcached
+brew install php71-oauth
+brew install php71-opcache
+brew install php71-xdebug
+
+brew install phpmd
+# brew install drush
+brew install drupal-code-sniffer
+brew install drupalconsole
+
+brew install composer
+
+# Install Python
+brew install python
+brew install pyenv
+
+# Install Ruby
+brew install ruby
+brew install rbenv
+brew install ruby-build
+brew install rbenv-default-gems
+brew install rbenv-gemset
+
+# Install Go
+brew install golang
 
 # Remove outdated versions from the cellar.
 brew cleanup
