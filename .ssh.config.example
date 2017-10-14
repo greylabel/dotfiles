@@ -1,0 +1,8 @@
+# copy to ~/.ssh/config
+
+IgnoreUnknown AddKeysToAgent,UseRoaming,UseKeychain
+
+Host *
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_rsa

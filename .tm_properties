@@ -1,0 +1,71 @@
+# https://gist.github.com/dvessel/1478685
+# https://gist.github.com/Victa/1485536
+# https://zanshin.net/2012/01/31/how-to-set-textmate-2-properties/
+
+# Display
+#
+fileBrowserVisible = true
+fontName = "Fira Code"
+fontSize = 11
+tabSize = 2
+softTabs = true
+wrapColumn = "Use Window Frame"
+softWrap = true
+showInvisibles = true
+spellChecking = true
+
+# Misc configuration
+#
+TM_GIT = "/usr/local/bin/git"
+TM_STRIP_WHITESPACE_ON_SAVE = true
+
+# Porjects
+#
+windowTitle = "$TM_DISPLAYNAME${TM_DIRECTORY/\A(?:\/Users\/g\w+\/?(.*)|(.+))\z/${2:? – ${2/\A\/Users\/g/~/}:${1/\A(?=.)/ – /}}/}"
+
+# Includes
+#
+myExtraIncludes = ".*"
+fileBrowserGlob = "{*,$myExtraIncludes}"
+include = "{$include,$myExtraIncludes}"
+
+# Excludes
+#
+excludeFiles = "*.{so,pyc,o,scssc}"
+excludeDirectories = "build,dist,tmp,log"
+myExtraExcludes = "log,vendor,tmp,.sass-cache,.DS_Store"
+excludeInFileChooser = "{$excludeInFileChooser,$myExtraExcludes}"
+excludeInFolderSearch = "{$excludeInFolderSearch,$myExtraExcludes}"
+
+# File type specific configuration
+#
+[ text ]
+showInvisibles = true
+
+[ .git/COMMIT_EDITMSG ]
+spellChecking = true
+spellingLanguage = 'en'
+
+[ *.{txt,md,mdown,markdown} ]
+spellChecking = true
+tabSize = 4
+
+[ *.{icns,ico,jpg,jpeg,m4v,nib,pdf,png,psd,pyc,rtf,tif,tiff,xib} ]
+binary = true
+
+[ source ]
+softTabs = true
+tabSize = 2
+
+[ source.python ]
+softTabs = true
+tabSize = 4
+
+[ "{README,INSTALL,LICENSE,TODO}" ]
+fileType = "text.plain"
+
+[ *.txt ]
+softWrap = true
+
+[ *.{html,phtml,php} ]
+softWrap = false
