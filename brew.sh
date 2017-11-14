@@ -98,6 +98,7 @@ brew install colordiff
 brew install curl
 brew install dnsmasq
 brew install goaccess
+brew install gpatch
 brew install graphviz
 brew install httpie
 brew install icoutils
