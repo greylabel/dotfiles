@@ -143,12 +143,12 @@ brew install php71-oauth
 brew install php71-opcache
 brew install php71-xdebug
 
+brew install composer
 brew install phpmd
-# brew install drush
+
+brew install drush-launcher
 brew install drupal-code-sniffer
 brew install drupalconsole
-
-brew install composer
 
 # Install Python
 brew install python
