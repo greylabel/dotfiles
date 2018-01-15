@@ -13,6 +13,7 @@
 ### Install from developer web sites
 
 * [1Password](https://agilebits.com/downloads)
+* [Backblaze](https://www.backblaze.com/mac/install_backblaze.dmg)
 * [Cloak](https://www.getcloak.com/downloads/)
 * [Dropbox](https://www.dropbox.com/downloading?src=index)
 * [iTerm2](https://www.iterm2.com/)
