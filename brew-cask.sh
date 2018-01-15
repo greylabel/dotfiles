@@ -4,9 +4,6 @@
 # to maintain cask ....
 #     brew update && brew upgrade brew-cask && brew cleanup && brew cask cleanup`
 
-
-# Install native apps
-
 brew tap caskroom/cask
 brew tap caskroom/versions
 
@@ -21,5 +18,9 @@ brew cask install vagrant-manager
 # brew cask install java
 
 # Install fonts
-brew tap caskroom/fonts 
+brew tap caskroom/fonts
 brew cask install font-fira-code
+
+# Install native apps
+brew cask install cyberduck
+brew cask install spotify
