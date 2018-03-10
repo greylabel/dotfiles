@@ -164,5 +164,8 @@ brew install rbenv-gemset
 # Install Go
 brew install golang
 
+# Install Elixir
+brew install elixir
+
 # Remove outdated versions from the cellar.
 brew cleanup
