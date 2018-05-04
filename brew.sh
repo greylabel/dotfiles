@@ -113,6 +113,9 @@ brew install pngcrush
 
 brew reinstall --with-openssl curl
 
+# Install apache
+# brew install httpd
+
 # Install node
 brew install node
 
@@ -132,16 +135,7 @@ brew install memcached
 # brew services start memcached
 
 # Install PHP
-brew tap homebrew/homebrew-php
-brew install php71 --with-homebrew-curl
-
-brew install php71-geoip
-# brew install php71-imagick
-brew install php71-mcrypt
-brew install php71-memcached
-brew install php71-oauth
-brew install php71-opcache
-brew install php71-xdebug
+brew install php@7.1
 
 brew install composer
 brew install phpmd

@@ -149,13 +149,14 @@ pip install ipython
 #### Links and resources
 * [Homebrew PHP](https://github.com/Homebrew/homebrew-php)
 
-`PATH="/usr/local/sbin:$PATH"`
+`PATH="/usr/local/opt/php@7.1/bin:$PATH"`
+`PATH="/usr/local/opt/php@7.1/sbin:$PATH"`
 
 ```bash
 #setup daemon
 mkdir -p ~/Library/LaunchAgents
-cp /usr/local/opt/php71/homebrew.mxcl.php71.plist ~/Library/LaunchAgents/
-launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.php71.plist
+cp /usr/local/opt/php71/homebrew.mxcl.php@7.1.plist ~/Library/LaunchAgents/
+launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.php@7.1.plist
 
 /usr/local/etc/php/7.1/php.ini
 
