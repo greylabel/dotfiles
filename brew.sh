@@ -110,6 +110,7 @@ brew install patchutils
 brew install percona-toolkit
 brew install pianobar
 brew install pngcrush
+brew install tldr
 
 brew reinstall --with-openssl curl
 
