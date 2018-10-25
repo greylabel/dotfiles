@@ -182,6 +182,12 @@
 
 [difftool "Kaleidoscope"]
 
+[fetch]
+
+  # Before fetching, remove any remote-tracking references that no longer
+  # exist on the remote.
+  prune = true
+
 [help]
 
   # Automatically correct and execute mistyped commands
@@ -214,6 +220,12 @@
   default = matching
   # Make `git push` push relevant annotated tags when pushing branches out.
   followTags = true
+
+[rebase]
+
+  # Automatically create a temporary stash entry before the operation begins,
+  # and apply it after the operation ends.
+  autoStash = true
 
 [status]
 
