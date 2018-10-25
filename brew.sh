@@ -111,6 +111,7 @@ brew install percona-toolkit
 brew install pianobar
 brew install pngcrush
 brew install tldr
+brew install watchman
 
 brew reinstall --with-openssl curl
 
