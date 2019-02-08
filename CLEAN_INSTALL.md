@@ -57,7 +57,7 @@
 * [Wipr](https://safari-extensions.apple.com/details/?id=com.giorgiocalderolla.wipr-desktop-4449XA862Y)
 * [Pin It Button](https://safari-extensions.apple.com/extensions/com.pinterest.extension-HWZFLG9PNK/Pinterest-Safari.safariextz)
 * [Grammarly](https://safari-extensions.apple.com/details/?id=com.grammarly.spellchecker.extension-W8F64X92K3)
-* [Instapaper]https://safari-extensions.apple.com/details/?id=com.instapaper.extension-CAM49M58WK()
+* [Instapaper](https://safari-extensions.apple.com/details/?id=com.instapaper.extension-CAM49M58WK)
 
 ## OS X Setup
 
