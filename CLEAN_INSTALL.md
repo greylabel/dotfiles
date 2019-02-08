@@ -1,4 +1,4 @@
-# Clean Install – OS X 10.12 Sierra
+# Clean Install – OS X 10.14 Mojave
 
 * [dotfiles](https://dotfiles.github.io)
 * [Mac OS X Setup Guide](http://sourabhbajaj.com/mac-setup/)
@@ -14,8 +14,8 @@
 
 * [1Password](https://agilebits.com/downloads)
 * [Backblaze](https://www.backblaze.com/mac/install_backblaze.dmg)
-* [Cloak](https://www.getcloak.com/downloads/)
 * [Dropbox](https://www.dropbox.com/downloading?src=index)
+* [Encypt.me](https://encrypt.me/apps/)
 * [iTerm2](https://www.iterm2.com/)
 * [TextMate](http://macromates.com/download)
 * [Airfoil](https://rogueamoeba.com/airfoil/mac/)
