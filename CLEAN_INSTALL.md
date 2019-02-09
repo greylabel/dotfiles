@@ -1,68 +1,15 @@
 # Clean Install – OS X 10.14 Mojave
-
-* [dotfiles](https://dotfiles.github.io)
 * [Mac OS X Setup Guide](http://sourabhbajaj.com/mac-setup/)
-
-## Dotfiles
-
-#### Links and resources
-* [dotfiles](https://github.com/greylabel/dotfiles)
-
-## OS X Software
-
-### Install from developer web sites
-
-* [1Password](https://agilebits.com/downloads)
-* [Backblaze](https://www.backblaze.com/mac/install_backblaze.dmg)
-* [Dropbox](https://www.dropbox.com/downloading?src=index)
-* [Encypt.me](https://encrypt.me/apps/)
-* [iTerm2](https://www.iterm2.com/)
-* [TextMate](http://macromates.com/download)
-* [Airfoil](https://rogueamoeba.com/airfoil/mac/)
-* [Adobe Creative Cloud](http://www.adobe.com/creativecloud/desktop-app.html)
-* [Chrome](https://www.google.com/intl/en/chrome/browser/)
-* [Docker](https://store.docker.com/editions/community/docker-ce-desktop-mac)
-* [Garmin Express](https://www.garmin.com/en-US/software/express)
-* [Firefox](http://www.mozilla.org/en-US/firefox/all/)
-* [Kaleidoscoope](https://www.kaleidoscopeapp.com)
-* [Keep It](http://reinventedsoftware.com/keepit/downloads/)
-* [NetNewsWire](http://netnewswireapp.com/mac/)
-* [OmniFocus](https://www.omnigroup.com/download/latest/omnifocus)
-* [PhpStorm](https://www.jetbrains.com/phpstorm/download/)
-* [Sequel Pro](http://www.sequelpro.com/)
-* [Sketch](https://www.sketchapp.com/download/sketch.zip)
-* [Tower](https://www.git-tower.com/mac/)
-* [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
-* [VLC](https://www.videolan.org/vlc/download-macosx.html)
-* [Webkit](http://webkit.org)
-* [Wireshark](https://www.wireshark.org/download.html)
-* [Zeplin](https://zpl.io/download-mac)
-
-### Install from App Store
-
-* [Alfred](https://itunes.apple.com/us/app/alfred/id405843582?mt=12)
-* [Amphetamine](https://itunes.apple.com/us/app/amphetamine/id937984704?mt=12)
-* [Better Renamer 9](https://itunes.apple.com/us/app/better-rename-9/id414209656?mt=12)
-* [Slack](https://itunes.apple.com/se/app/slack/id803453959?mt=12)
-* [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?ls=1&mt=12)
-
-### Browser Extensions
-
-#### Safari
-
-[Safari Extensions](https://safari-extensions.apple.com)
-
-* [1Password](https://safari-extensions.apple.com/details/?id=com.agilebits.onepassword4-safari-2BUA8C4S2C)
-* [Dreditor](https://dreditor.org)
-* [Wipr](https://safari-extensions.apple.com/details/?id=com.giorgiocalderolla.wipr-desktop-4449XA862Y)
-* [Pin It Button](https://safari-extensions.apple.com/extensions/com.pinterest.extension-HWZFLG9PNK/Pinterest-Safari.safariextz)
-* [Grammarly](https://safari-extensions.apple.com/details/?id=com.grammarly.spellchecker.extension-W8F64X92K3)
-* [Instapaper](https://safari-extensions.apple.com/details/?id=com.instapaper.extension-CAM49M58WK)
 
 ## OS X Setup
 
-#### Set hostname
+#### Create directories
+```bash
+mkdir ~/Projects && chmod +a "group:everyone deny delete" Projects
+mkdir ~/Sites && chmod +a "group:everyone deny delete" Sites
+```
 
+#### Set hostname (optional)
 ```bash
 sudo scutil --set HostName Babylon
 ```
@@ -71,8 +18,17 @@ sudo scutil --set HostName Babylon
 [Generating a new SSH key and adding it to the ssh-agent](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
 
 #### Generating a new SSH key
+
+```bash
+cd ~/
+mkdir .ssh
+chmod go-rwx .ssh
+cd .ssh
+```
+
 ```bash
 ssh-keygen -t rsa -b 4096 -C "grant@greylabel.net"
+chmod 600 id_rsa.pub
 ```
 
 #### Adding your SSH key to the ssh-agent
@@ -84,7 +40,7 @@ Modify your `~/.ssh/config` file to automatically load keys into the ssh-agent a
 ```bash
 Host *
  AddKeysToAgent yes
- # UseKeychain yes
+ UseKeychain yes
  IdentityFile ~/.ssh/id_rsa
 ```
 
@@ -92,6 +48,26 @@ Host *
 ssh-add -K ~/.ssh/id_rsa
 ```
 
+At this point, the new key should be added to GitHub.
+
+### Git
+Create and use `~/.gitconfig.local` file for username / github token / etc.
+
+```
+[user]
+
+  name = Grant Gaudet
+  email = grant@greylabel.net
+
+[github]
+
+  user = greylabel
+```
+
+### Dotfiles
+
+#### Links and resources
+* [dotfiles](https://dotfiles.github.io)
 
 ### Homebrew and global packages
 
@@ -119,6 +95,8 @@ sudo xcrun cc
 ```
 
 ## Go
+
+See `.exports`.
 
 ```bash
 export GOPATH=$HOME/go
@@ -149,13 +127,15 @@ pip install ipython
 #### Links and resources
 * [Homebrew PHP](https://github.com/Homebrew/homebrew-php)
 
+See `.exports`.
+
 `PATH="/usr/local/opt/php@7.1/bin:$PATH"`
 `PATH="/usr/local/opt/php@7.1/sbin:$PATH"`
 
 ```bash
 #setup daemon
 mkdir -p ~/Library/LaunchAgents
-cp /usr/local/opt/php71/homebrew.mxcl.php@7.1.plist ~/Library/LaunchAgents/
+cp /usr/local/opt/php@7.1/homebrew.mxcl.php@7.1.plist ~/Library/LaunchAgents/
 launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.php@7.1.plist
 
 /usr/local/etc/php/7.1/php.ini
@@ -165,11 +145,9 @@ date.timezone = America/Los_Angeles
 upload_max_filesize = 64M
 post_max_size = 32M
 
-brew services start homebrew/php/php71
+brew services start php@7.1
 
 ```
-
-
 
 ### Composer for PHP
 
@@ -178,7 +156,7 @@ brew services start homebrew/php/php71
 [Download Composer](https://getcomposer.org/download/)
 ```bash
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-php -r "if (hash_file('SHA384', 'composer-setup.php') === '669656bab3166a7aff8a7506b8cb2d1c292f042046c5a994c43155c0be6190fa0355160742ab2e1c88d40d5be660b410') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+php -r "if (hash_file('sha384', 'composer-setup.php') === '48e3236262b34d30969dca3c37281b3b4bbe3221bda826ac6a9a62d6444cdb0dcd0615698a5cbe587c3f0fe57a54d8f5') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
 php composer-setup.php
 php -r "unlink('composer-setup.php');"
 ```
@@ -301,3 +279,56 @@ sudo mkdir -p /var/ && sudo ln -s ~/Sites /var/www
 
 Follow the setup instructions on the [Drush Launcher](https://github.com/drush-ops/drush-launcher) project page.
 
+## OS X Software
+
+### Install from developer web sites
+
+* [1Password](https://agilebits.com/downloads)
+* [Adobe Creative Cloud](http://www.adobe.com/creativecloud/desktop-app.html)
+* [Airfoil](https://rogueamoeba.com/airfoil/mac/)
+* [Backblaze](https://www.backblaze.com/mac/install_backblaze.dmg)
+* [Chrome](https://www.google.com/intl/en/chrome/browser/)
+* [Cyberduck](https://cyberduck.io/download)
+* [Docker](https://store.docker.com/editions/community/docker-ce-desktop-mac)
+* [Dropbox](https://www.dropbox.com/downloading?src=index)
+* [Encypt.me](https://encrypt.me/apps/)
+* [Firefox](http://www.mozilla.org/en-US/firefox/all/)
+* [Garmin Express](https://www.garmin.com/en-US/software/express)
+* [iTerm2](https://www.iterm2.com/)
+* [JetBrains Toolbox App](https://www.jetbrains.com/toolbox/app/)
+* [Kaleidoscoope](https://www.kaleidoscopeapp.com)
+* [Keep It](http://reinventedsoftware.com/keepit/downloads/)
+* [NetNewsWire](http://netnewswireapp.com/mac/)
+* [OmniFocus](https://www.omnigroup.com/download/latest/omnifocus)
+* [PhpStorm](https://www.jetbrains.com/phpstorm/download/)
+* [Sequel Pro](http://www.sequelpro.com/)
+* [Sketch](https://www.sketchapp.com/download/sketch.zip)
+* [Spotify](https://www.spotify.com/us/download/other/)
+* [TextMate](http://macromates.com/download)
+* [Tower](https://www.git-tower.com/mac/)
+* [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+* [VLC](https://www.videolan.org/vlc/download-macosx.html)
+* [Webkit](http://webkit.org)
+* [Wireshark](https://www.wireshark.org/download.html)
+* [Zeplin](https://zpl.io/download-mac)
+
+### Install from App Store
+
+* [Alfred](https://itunes.apple.com/us/app/alfred/id405843582?mt=12)
+* [Amphetamine](https://itunes.apple.com/us/app/amphetamine/id937984704?mt=12)
+* [Better Renamer 9](https://itunes.apple.com/us/app/better-rename-9/id414209656?mt=12)
+* [Slack](https://itunes.apple.com/se/app/slack/id803453959?mt=12)
+* [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?ls=1&mt=12)
+
+### Browser Extensions
+
+#### Safari
+
+[Safari Extensions](https://safari-extensions.apple.com)
+
+* [1Password](https://safari-extensions.apple.com/details/?id=com.agilebits.onepassword4-safari-2BUA8C4S2C)
+* [Dreditor](https://dreditor.org)
+* [Grammarly](https://safari-extensions.apple.com/details/?id=com.grammarly.spellchecker.extension-W8F64X92K3)
+* [Instapaper](https://safari-extensions.apple.com/details/?id=com.instapaper.extension-CAM49M58WK)
+* [Pin It Button](https://safari-extensions.apple.com/extensions/com.pinterest.extension-HWZFLG9PNK/Pinterest-Safari.safariextz)
+* [Wipr](https://safari-extensions.apple.com/details/?id=com.giorgiocalderolla.wipr-desktop-4449XA862Y)

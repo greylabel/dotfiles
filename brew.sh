@@ -21,7 +21,7 @@ brew install moreutils
 # Install GNU `find`, `locate`, `updatedb`, and `xargs`, `g`-prefixed.
 brew install findutils
 # Install GNU `sed`, overwriting the built-in `sed`.
-brew install gnu-sed --with-default-names
+brew install gnu-sed
 # Install Bash 4.
 brew install bash
 brew install bash-completion2
@@ -33,13 +33,13 @@ if ! fgrep -q "${BREW_PREFIX}/bin/bash" /etc/shells; then
 fi;
 
 # Install `wget` with IRI support.
-brew install wget --with-iri
+brew install wget
 
 # Install GnuPG to enable PGP-signing commits.
 brew install gnupg
 
 # Install more recent versions of some macOS tools.
-brew install vim --with-override-system-vi
+brew install vim
 brew install grep
 brew install openssh
 brew install screen
@@ -81,7 +81,7 @@ brew install ack
 #brew install exiv2
 brew install git
 brew install git-lfs
-brew install imagemagick --with-webp
+brew install imagemagick
 brew install lua
 brew install lynx
 brew install p7zip
@@ -95,7 +95,6 @@ brew install vbindiff
 brew install zopfli
 
 brew install ansible
-brew install chromedriver
 brew install colordiff
 brew install curl
 brew install dnsmasq
@@ -114,8 +113,6 @@ brew install pianobar
 brew install pngcrush
 brew install tldr
 brew install watchman
-
-brew reinstall --with-openssl curl
 
 # Install apache
 # brew install httpd
@@ -142,11 +139,11 @@ brew install memcached
 brew install php@7.1
 
 brew install composer
-brew install phpmd
 
-brew install drush-launcher
-brew install drupal-code-sniffer
-brew install drupalconsole
+# Previously in homebrew-php, which is deprecated.
+# brew install drush-launcher
+# brew install drupal-code-sniffer
+# brew install drupalconsole
 
 # Install Python
 brew install python

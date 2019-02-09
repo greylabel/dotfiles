@@ -193,6 +193,11 @@
   # Automatically correct and execute mistyped commands
   autocorrect = 1
 
+[include]
+
+  # use separate file for username / github token / etc
+  path = ~/.gitconfig.local
+
 [merge]
 
   # Include summaries of merged commits in newly created merge commit messages
@@ -250,15 +255,6 @@
 [url "git://gist.github.com/"]
 
   insteadOf = "gist:"
-
-[user]
-
-  name = Grant Gaudet
-  email = grant@greylabel.net
-
-[github]
-
-  user = greylabel
 
 [gist]
 

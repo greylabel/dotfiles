@@ -20,6 +20,9 @@ brew cask install vagrant-manager
 
 # brew cask install java
 
+# Install Chromedriver
+brew cask install chromedriver
+
 # Install fonts
 brew tap caskroom/fonts
 brew cask install font-fira-code
