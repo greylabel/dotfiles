@@ -2,7 +2,10 @@
 
 
 # to maintain cask ....
-#     brew update && brew cask upgrade && brew cleanup && brew cask cleanup`
+#     brew update && brew upgrade brew-cask && brew cleanup && brew cask cleanup`
+
+
+# Install native apps
 
 brew tap caskroom/cask
 brew tap caskroom/versions
