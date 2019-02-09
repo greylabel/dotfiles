@@ -87,6 +87,9 @@
   #   unstage = reset HEAD --
   #   last = log -1 HEAD
 
+  # shows me just my commits
+  mine = "!f() { git log --no-merges --author=$(git config user.email) $*; }; f"
+
 [apply]
 
   # Detect whitespace errors when applying a patch
