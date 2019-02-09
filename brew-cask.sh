@@ -21,5 +21,9 @@ brew cask install vagrant-manager
 # brew cask install java
 
 # Install fonts
-brew tap caskroom/fonts 
+brew tap caskroom/fonts
 brew cask install font-fira-code
+
+# Install native apps
+brew cask install cyberduck
+brew cask install spotify

@@ -100,6 +100,7 @@ brew install colordiff
 brew install curl
 brew install dnsmasq
 brew install goaccess
+brew install gpatch
 brew install graphviz
 brew install httpie
 brew install icoutils
@@ -111,8 +112,13 @@ brew install patchutils
 brew install percona-toolkit
 brew install pianobar
 brew install pngcrush
+brew install tldr
+brew install watchman
 
 brew reinstall --with-openssl curl
+
+# Install apache
+# brew install httpd
 
 # Install node
 brew install node
@@ -133,23 +139,14 @@ brew install memcached
 # brew services start memcached
 
 # Install PHP
-brew tap homebrew/homebrew-php
-brew install php71 --with-homebrew-curl
-
-brew install php71-geoip
-# brew install php71-imagick
-brew install php71-mcrypt
-brew install php71-memcached
-brew install php71-oauth
-brew install php71-opcache
-brew install php71-xdebug
-
-brew install phpmd
-# brew install drush
-brew install drupal-code-sniffer
-brew install drupalconsole
+brew install php@7.1
 
 brew install composer
+brew install phpmd
+
+brew install drush-launcher
+brew install drupal-code-sniffer
+brew install drupalconsole
 
 # Install Python
 brew install python
@@ -164,6 +161,9 @@ brew install rbenv-gemset
 
 # Install Go
 brew install golang
+
+# Install Elixir
+brew install elixir
 
 # Remove outdated versions from the cellar.
 brew cleanup

@@ -1,4 +1,4 @@
-# Clean Install – OS X 10.12 Sierra
+# Clean Install – OS X 10.14 Mojave
 
 * [dotfiles](https://dotfiles.github.io)
 * [Mac OS X Setup Guide](http://sourabhbajaj.com/mac-setup/)
@@ -14,8 +14,8 @@
 
 * [1Password](https://agilebits.com/downloads)
 * [Backblaze](https://www.backblaze.com/mac/install_backblaze.dmg)
-* [Cloak](https://www.getcloak.com/downloads/)
 * [Dropbox](https://www.dropbox.com/downloading?src=index)
+* [Encypt.me](https://encrypt.me/apps/)
 * [iTerm2](https://www.iterm2.com/)
 * [TextMate](http://macromates.com/download)
 * [Airfoil](https://rogueamoeba.com/airfoil/mac/)
@@ -57,7 +57,7 @@
 * [Wipr](https://safari-extensions.apple.com/details/?id=com.giorgiocalderolla.wipr-desktop-4449XA862Y)
 * [Pin It Button](https://safari-extensions.apple.com/extensions/com.pinterest.extension-HWZFLG9PNK/Pinterest-Safari.safariextz)
 * [Grammarly](https://safari-extensions.apple.com/details/?id=com.grammarly.spellchecker.extension-W8F64X92K3)
-* [Instapaper]https://safari-extensions.apple.com/details/?id=com.instapaper.extension-CAM49M58WK()
+* [Instapaper](https://safari-extensions.apple.com/details/?id=com.instapaper.extension-CAM49M58WK)
 
 ## OS X Setup
 
@@ -149,13 +149,14 @@ pip install ipython
 #### Links and resources
 * [Homebrew PHP](https://github.com/Homebrew/homebrew-php)
 
-`PATH="/usr/local/sbin:$PATH"`
+`PATH="/usr/local/opt/php@7.1/bin:$PATH"`
+`PATH="/usr/local/opt/php@7.1/sbin:$PATH"`
 
 ```bash
 #setup daemon
 mkdir -p ~/Library/LaunchAgents
-cp /usr/local/opt/php71/homebrew.mxcl.php71.plist ~/Library/LaunchAgents/
-launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.php71.plist
+cp /usr/local/opt/php71/homebrew.mxcl.php@7.1.plist ~/Library/LaunchAgents/
+launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.php@7.1.plist
 
 /usr/local/etc/php/7.1/php.ini
 
