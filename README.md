@@ -16,11 +16,6 @@ mkdir ~/Projects && chmod +a "group:everyone deny delete" Projects
 mkdir ~/Sites && chmod +a "group:everyone deny delete" Sites
 ```
 
-#### Set hostname (optional)
-```bash
-sudo scutil --set HostName Babylon
-```
-
 ### SSH
 [Generating a new SSH key and adding it to the ssh-agent](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
 
@@ -45,10 +40,12 @@ eval "$(ssh-agent -s)"
 
 Modify your `~/.ssh/config` file to automatically load keys into the ssh-agent and store passphrases in your keychain.
 ```bash
+IgnoreUnknown AddKeysToAgent,UseRoaming,UseKeychain
+
 Host *
- AddKeysToAgent yes
- UseKeychain yes
- IdentityFile ~/.ssh/id_rsa
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_rsa
 ```
 
 ```bash
@@ -328,6 +325,7 @@ Follow the setup instructions on the [Drush Launcher](https://github.com/drush-o
 * [OmniFocus](https://www.omnigroup.com/download/latest/omnifocus)
 * [PhpStorm](https://www.jetbrains.com/phpstorm/download/)
 * [Sequel Pro](http://www.sequelpro.com/)
+* [Spectacle](https://www.spectacleapp.com)
 * [Sketch](https://www.sketchapp.com/download/sketch.zip)
 * [Spotify](https://www.spotify.com/us/download/other/)
 * [TextMate](http://macromates.com/download)
