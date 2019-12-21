@@ -114,6 +114,7 @@ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/
 ### Vagrant
 ```bash
 vagrant plugin install vagrant-hostsupdater
+vagrant plugin install vagrant-vbguest
 ```
 
 ### Xcode
@@ -145,6 +146,21 @@ export PATH=$PATH:$GOROOT/bin
 ```bash
 npm install -g bower
 ```
+
+### VMV
+
+NVM recommends installing via their own install script. [See installation instructions here](https://github.com/creationix/nvm).
+
+```bash
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+```
+
+See `.exports` and `.bash_profile`.
+
+Install node with `nvm install`, then select the locally-specified version for use with nvm use. If the node version needs to be changed, this can be done in the .nvmrc file in the root of the repository.
+
+You will also need to install the latest npm. Install with `npm install -g npm@latest`.
+
 
 ## Python
 ```bash
