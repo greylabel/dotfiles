@@ -177,23 +177,23 @@ pip install ipython
 
 See `.exports`.
 
-`PATH="/usr/local/opt/php@7.1/bin:$PATH"`
-`PATH="/usr/local/opt/php@7.1/sbin:$PATH"`
+`PATH="/usr/local/opt/php@7.2/bin:$PATH"`
+`PATH="/usr/local/opt/php@7.2/sbin:$PATH"`
 
 ```bash
 #setup daemon
 mkdir -p ~/Library/LaunchAgents
-cp /usr/local/opt/php@7.1/homebrew.mxcl.php@7.1.plist ~/Library/LaunchAgents/
-launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.php@7.1.plist
+cp /usr/local/opt/php@7.2/homebrew.mxcl.php@7.2.plist ~/Library/LaunchAgents/
+launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.php@7.2.plist
 
-/usr/local/etc/php/7.1/php.ini
+/usr/local/etc/php/7.2/php.ini
 
 memory_limit = 1G
 date.timezone = America/Los_Angeles
 upload_max_filesize = 64M
 post_max_size = 32M
 
-brew services start php@7.1
+brew services start php@7.2
 
 ```
 

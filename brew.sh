@@ -141,7 +141,7 @@ brew install memcached
 # brew services start memcached
 
 # Install PHP
-brew install php@7.1
+brew install php@7.2
 
 brew install composer
 
