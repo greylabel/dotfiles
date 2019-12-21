@@ -107,6 +107,7 @@ brew install httpie
 brew install icoutils
 brew install jmeter
 brew install jpegoptim
+brew install jq
 # brew install libressl
 brew install mitmproxy
 brew install openssl
@@ -114,6 +115,7 @@ brew install patchutils
 brew install percona-toolkit
 brew install pianobar
 brew install pngcrush
+brew install shellcheck
 brew install tldr
 brew install watchman
 
