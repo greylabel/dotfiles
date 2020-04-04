@@ -110,6 +110,7 @@ brew install jpegoptim
 brew install jq
 # brew install libressl
 brew install mitmproxy
+brew install nss
 brew install openssl
 brew install patchutils
 brew install percona-toolkit
