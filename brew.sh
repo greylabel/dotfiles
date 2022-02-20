@@ -14,15 +14,15 @@ BREW_PREFIX=$(brew --prefix)
 # Install GNU core utilities (those that come with macOS are outdated).
 # Don’t forget to add `$(brew --prefix coreutils)/libexec/gnubin` to `$PATH`.
 brew install coreutils
-# ln -s "${BREW_PREFIX}/bin/gsha256sum" "${BREW_PREFIX}/bin/sha256sum"
+ln -s "${BREW_PREFIX}/bin/gsha256sum" "${BREW_PREFIX}/bin/sha256sum"
 
 # Install some other useful utilities like `sponge`.
 brew install moreutils
 # Install GNU `find`, `locate`, `updatedb`, and `xargs`, `g`-prefixed.
 brew install findutils
 # Install GNU `sed`, overwriting the built-in `sed`.
-brew install gnu-sed
-# Install Bash 4.
+brew install gnu-sed --with-default-names
+# Install a modern version of Bash.
 brew install bash
 brew install bash-completion2
 
@@ -33,16 +33,18 @@ if ! fgrep -q "${BREW_PREFIX}/bin/bash" /etc/shells; then
 fi;
 
 # Install `wget` with IRI support.
-brew install wget
+brew install wget --with-iri
 
 # Install GnuPG to enable PGP-signing commits.
 brew install gnupg
 
 # Install more recent versions of some macOS tools.
-brew install vim
+brew install vim --with-override-system-vi
 brew install grep
 brew install openssh
 brew install screen
+brew install php
+brew install gmp
 
 # Install font tools.
 brew tap bramstein/webfonttools
@@ -81,7 +83,8 @@ brew install ack
 #brew install exiv2
 brew install git
 brew install git-lfs
-brew install imagemagick
+brew install gs
+brew install imagemagick --with-webp
 brew install lua
 brew install lynx
 brew install p7zip
@@ -94,7 +97,12 @@ brew install tree
 brew install vbindiff
 brew install zopfli
 
+# Remove outdated versions from the cellar.
+brew cleanup
+
+
 ###
+
 
 brew install ansible
 brew install colordiff
@@ -120,8 +128,13 @@ brew install shellcheck
 brew install tldr
 brew install watchman
 
+# Install Let's Encrypt + Certbot
+brew install certbot
+
+
 # Install apache
-# brew install httpd
+brew install httpd
+# brew services start httpd
 
 # Install node
 brew install node
@@ -133,6 +146,10 @@ brew install yarn
 brew install mysql
 # brew services start mysql
 
+# Install mariadb
+# brew install mariadb
+# brew services start mariadb
+
 # Install reddis
 brew install redis
 # brew services start redis
@@ -142,8 +159,7 @@ brew install memcached
 # brew services start memcached
 
 # Install PHP
-brew install php@7.2
-
+# brew install php
 brew install composer
 
 # Previously in homebrew-php, which is deprecated.

@@ -21,4 +21,5 @@ brew cask install docker-toolbox
 
 # Install fonts
 brew tap homebrew/cask-fonts
+brew cask install font-courier-prime
 brew cask install font-fira-code
