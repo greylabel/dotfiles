@@ -38,7 +38,7 @@ chmod 600 id_rsa.pub
 eval "$(ssh-agent -s)"
 ```
 
-Modify your `~/.ssh/config` file to automatically load keys into the ssh-agent and store passphrases in your keychain.
+Modify the `~/.ssh/config` file to automatically load keys into the ssh-agent and store passphrases in your keychain.
 ```bash
 IgnoreUnknown AddKeysToAgent,UseRoaming,UseKeychain
 
@@ -52,12 +52,12 @@ Host *
 ssh-add -K ~/.ssh/id_rsa
 ```
 
-At this point, the new key should be added to GitHub.
+At this point, the new key can be added to GitHub and other cloud services.
 
 
 ## Dotfiles
 
-You can clone the repository wherever you want. (I like to keep it in `~/Projects/dotfiles`, with `~/dotfiles` as a symlink.) The bootstrapper script will pull in the latest version and copy the files to your home folder.
+Can clone the repository wherever you want. (I like to keep it in `~/Projects/dotfiles`, with `~/dotfiles` as a symlink.) The bootstrapper script will pull in the latest version and copy the files to your home folder.
 
 ```bash
 git clone git@github.com:greylabel/g.files.git && cd dotfiles && source bootstrap.sh
@@ -103,8 +103,14 @@ Create and use `~/.gitconfig.local` file for username / github token / etc.
 ## Homebrew and global packages
 ```bash
 # install package manager
-ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 ```
+
+```bash
+# ensure brew is configured correctly
+brew doctor
+```
+
 
 ```bash
 ./brew.sh
@@ -142,24 +148,25 @@ export PATH=$PATH:$GOROOT/bin
 
 ## Node
 
-#### Packages
-```bash
-npm install -g bower
-```
 
 ### VMV
 
 NVM recommends installing via their own install script. [See installation instructions here](https://github.com/creationix/nvm).
 
 ```bash
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.0/install.sh | bash
 ```
 
 See `.exports` and `.bash_profile`.
 
-Install node with `nvm install`, then select the locally-specified version for use with nvm use. If the node version needs to be changed, this can be done in the .nvmrc file in the root of the repository.
+Install node with `nvm install`, then select the locally-specified version for use with nvm use. If the node version needs to be changed, this can be done in the .nvmrc file in the root of a project's repository.
 
 You will also need to install the latest npm. Install with `npm install -g npm@latest`.
+
+#### Packages
+```bash
+npm install -g bower
+```
 
 
 ## Python
@@ -177,25 +184,33 @@ pip install ipython
 
 See `.exports`.
 
-`PATH="/usr/local/opt/php@7.2/bin:$PATH"`
-`PATH="/usr/local/opt/php@7.2/sbin:$PATH"`
+`PATH="/usr/local/opt/php@8.1/bin:$PATH"`
+`PATH="/usr/local/opt/php@8.1/sbin:$PATH"`
 
 ```bash
 #setup daemon
 mkdir -p ~/Library/LaunchAgents
-cp /usr/local/opt/php@7.2/homebrew.mxcl.php@7.2.plist ~/Library/LaunchAgents/
-launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.php@7.2.plist
+cp /usr/local/opt/php@8.1/homebrew.mxcl.php@8.1.plist ~/Library/LaunchAgents/
+launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.php@8.1.plist
+```
 
-/usr/local/etc/php/7.2/php.ini
+```bash
+# /usr/local/etc/php/8.1/php.ini
 
 memory_limit = 1G
 date.timezone = America/Los_Angeles
-upload_max_filesize = 64M
-post_max_size = 32M
-
-brew services start php@7.2
-
+upload_max_filesize = 32M
+post_max_size = 64M
 ```
+
+```bash
+brew services start php@8.1
+```
+
+```bash
+pecl uninstall -r apcu && pecl install apcu && pecl uninstall -r yaml && pecl install yaml && pecl uninstall -r xdebug && pecl install xdebug
+```
+
 
 ### Composer for PHP
 [Downloading the Composer Executable](https://getcomposer.org/doc/00-intro.md#downloading-the-composer-executable)
@@ -216,9 +231,18 @@ curl -sS https://getcomposer.org/installer | php
 mv composer.phar /usr/local/bin/composer
 ```
 
+Or, install `composer` with Homebrew.
+
 ```bash
-composer global require "hirak/prestissimo:^0.3"
+brew install composer
 ```
+
+See `.exports`.
+
+`export COMPOSER_PROCESS_TIMEOUT=2000`
+`export COMPOSER_MEMORY_LIMIT=-1`
+
+
 
 ## Ruby
 #### rbenv
@@ -259,20 +283,24 @@ $(brew --prefix mysql)/bin/mysql_secure_installation
 ## Apache
 ```bash
 # Stop the built-in Apache
-sudo launchctl unload /System/Library/LaunchDaemons/org.apache.httpd.plist 2>/dev/null
+sudo apachectl stop
+sudo launchctl unload -w /System/Library/LaunchDaemons/org.apache.httpd.plist 2>/dev/null
 ```
 
 ```bash
-# Install Apache 2.2
-brew install -v homebrew/apache/httpd22 --with-homebrew-openssl --with-mpm-event
+# Install Apache 2.4
+brew install httpd
 ```
 
 ```bash
-# Install the mod_fastcgi module
-brew install -v homebrew/apache/mod_fastcgi --with-brewed-httpd22
+# Ensure Apache server is auto-started
+sudo brew services start httpd
 ```
 
-Follow the remaining Apache setup instructions in the [OS X 10.10 Yosemite Local Development Environment: Apache, PHP, and MySQL with Homebrew](https://echo.co/blog/os-x-1010-yosemite-local-development-environment-apache-php-and-mysql-homebrew).
+### Apache Configuration
+```bash
+# /usr/local/etc/httpd/httpd.conf
+```
 
 ## NGINX
 ```bash
@@ -348,6 +376,7 @@ Follow the setup instructions on the [Drush Launcher](https://github.com/drush-o
 * [Tower](https://www.git-tower.com/mac/)
 * [Vagrant](https://www.vagrantup.com/downloads.html)
 * [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+* [ Visual Studio Code](https://code.visualstudio.com)
 * [VLC](https://www.videolan.org/vlc/download-macosx.html)
 * [Webkit](http://webkit.org)
 * [Wireshark](https://www.wireshark.org/download.html)
