@@ -7,19 +7,19 @@
 
 # Install native apps
 
-brew tap caskroom/cask
-brew tap caskroom/versions
+brew tap homebrew/cask
+brew tap homebrew/versions
 
 # Install Chromedriver
-brew cask install chromedriver
+brew install --cask chromedriver
 
 # Install Docker Toolbox
-brew cask install docker-toolbox
+brew install --cask docker-toolbox
 
 # Install Java
 # brew cask install java
 
 # Install fonts
 brew tap homebrew/cask-fonts
-brew cask install font-courier-prime
-brew cask install font-fira-code
+brew install --cask font-courier-prime
+brew install --cask font-fira-code
