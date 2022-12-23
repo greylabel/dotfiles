@@ -173,3 +173,10 @@ alias hosts='sudo $EDITOR /etc/hosts'
 
 # File size
 alias fs="stat -f \"%z bytes\""
+
+# Docker
+alias up="docker-compose up"
+alias down="docker-compose down"
+
+# Symfony
+alias sc="symfony console"
