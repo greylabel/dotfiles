@@ -167,6 +167,9 @@ brew install composer
 # brew install drupal-code-sniffer
 # brew install drupalconsole
 
+# Install Symfont CLI
+brew install symfony-cli/tap/symfony-cli
+
 # Install Python
 brew install python
 brew install pyenv
