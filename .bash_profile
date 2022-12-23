@@ -4,8 +4,8 @@ PATH="/usr/local/sbin:$PATH"
 PATH="$HOME/bin:$PATH"
 PATH="/usr/local/opt/python/libexec/bin:$PATH"
 PATH="$PATH:/usr/local/opt/go/libexec/bin"
-PATH="/usr/local/opt/php@8.1/bin:$PATH"
-PATH="/usr/local/opt/php@8.1/sbin:$PATH"
+PATH="/usr/local/opt/php@8.2/bin:$PATH"
+PATH="/usr/local/opt/php@8.2/sbin:$PATH"
 
 export PATH
 

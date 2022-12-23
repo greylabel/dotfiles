@@ -182,20 +182,20 @@ pip install ipython
 #### Links and resources
 * [Homebrew PHP](https://github.com/Homebrew/homebrew-php)
 
-See `.exports`.
+See `.bash_profile`.
 
-`PATH="/usr/local/opt/php@8.1/bin:$PATH"`
-`PATH="/usr/local/opt/php@8.1/sbin:$PATH"`
+`PATH="/usr/local/opt/php@8.2/bin:$PATH"`
+`PATH="/usr/local/opt/php@8.2/sbin:$PATH"`
 
 ```bash
 #setup daemon
 mkdir -p ~/Library/LaunchAgents
-cp /usr/local/opt/php@8.1/homebrew.mxcl.php@8.1.plist ~/Library/LaunchAgents/
-launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.php@8.1.plist
+cp /usr/local/opt/php@8.2/homebrew.mxcl.php@8.2.plist ~/Library/LaunchAgents/
+launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.php@8.2.plist
 ```
 
 ```bash
-# /usr/local/etc/php/8.1/php.ini
+# /usr/local/etc/php/8.2/php.ini
 
 memory_limit = 1G
 date.timezone = America/Los_Angeles
@@ -204,7 +204,7 @@ post_max_size = 64M
 ```
 
 ```bash
-brew services start php@8.1
+brew services start php@8.2
 ```
 
 ```bash
