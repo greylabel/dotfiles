@@ -103,6 +103,7 @@ brew cleanup
 
 ###
 
+brew install gh
 
 brew install ansible
 brew install colordiff
