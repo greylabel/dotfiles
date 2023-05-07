@@ -20,6 +20,8 @@ export NVM_DIR="$HOME/.nvm"
 
 ###
 
+# Add 1Password plugins
+source ~/.config/op/plugins.sh
 
 # Add `~/bin` to the `$PATH`
 # export PATH="$HOME/bin:$PATH";
