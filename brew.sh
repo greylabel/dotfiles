@@ -119,7 +119,6 @@ brew install jpegoptim
 brew install jq
 # brew install libressl
 brew install mitmproxy
-brew install nss
 brew install openssl
 brew install patchutils
 brew install percona-toolkit
@@ -132,6 +131,13 @@ brew install watchman
 # Install Let's Encrypt + Certbot
 brew install certbot
 
+# Locally-trusted development certificates
+brew install mkcert
+brew install nss
+
+# Docker and Colina
+brew install docker
+brew install colima
 
 # Install apache
 brew install httpd
