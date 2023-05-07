@@ -174,6 +174,9 @@ brew install composer
 # brew install drupal-code-sniffer
 # brew install drupalconsole
 
+# DDEV for Drupal Dev
+brew install ddev/ddev/ddev
+
 # Install Symfont CLI
 brew install symfony-cli/tap/symfony-cli
 
