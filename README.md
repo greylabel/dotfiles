@@ -352,13 +352,13 @@ Follow the setup instructions on the [Drush Launcher](https://github.com/drush-o
 ### Install from developer web sites
 * [1Password](https://agilebits.com/downloads)
 * [Adobe Creative Cloud](http://www.adobe.com/creativecloud/desktop-app.html)
-** Adobe Acrobat DC
-** Adobe Bride
-** Adobe InDesign
-** Adobe Lightroom Classic
-** Adobe Media Encoder
-** Adobe Photoshop
-** Adobe Premier Pro
+  * Adobe Acrobat DC
+  * Adobe Bride
+  * Adobe InDesign
+  * Adobe Lightroom Classic
+  * Adobe Media Encoder
+  * Adobe Photoshop
+  * Adobe Premier Pro
 * [Airfoil Satellite](https://rogueamoeba.com/airfoil/satellite/mac/)
 * [Airfoil](https://rogueamoeba.com/airfoil/mac/)
 * [Backblaze](https://www.backblaze.com/mac/install_backblaze.dmg)
@@ -374,11 +374,11 @@ Follow the setup instructions on the [Drush Launcher](https://github.com/drush-o
 * [Garmin Express](https://www.garmin.com/en-US/software/express)
 * [iTerm2](https://www.iterm2.com/)
 * [JetBrains Toolbox App](https://www.jetbrains.com/toolbox/app/)
-** DataGrip
-** GoLand
-** PhpStorm
-** PyCharm Professional
-** WebStorm
+  * DataGrip
+  * GoLand
+  * PhpStorm
+  * PyCharm Professional
+  * WebStorm
 * [Kaleidoscoope](https://www.kaleidoscopeapp.com)
 * [Keep It](http://reinventedsoftware.com/keepit/downloads/)
 * [NetNewsWire](http://netnewswireapp.com/mac/)
