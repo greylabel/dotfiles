@@ -23,3 +23,4 @@ brew install --cask docker-toolbox
 brew tap homebrew/cask-fonts
 brew install --cask font-courier-prime
 brew install --cask font-fira-code
+brew install --cask font-inter
