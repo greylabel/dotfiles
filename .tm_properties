@@ -6,8 +6,8 @@
 #
 fileBrowserVisible = true
 fontName = "Fira Code"
-fontSize = 11
-tabSize = 2
+fontSize = 12
+tabSize = 4
 softTabs = true
 wrapColumn = "Use Window Frame"
 softWrap = true
