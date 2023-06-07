@@ -352,6 +352,14 @@ Follow the setup instructions on the [Drush Launcher](https://github.com/drush-o
 ### Install from developer web sites
 * [1Password](https://agilebits.com/downloads)
 * [Adobe Creative Cloud](http://www.adobe.com/creativecloud/desktop-app.html)
+** Adobe Acrobat DC
+** Adobe Bride
+** Adobe InDesign
+** Adobe Lightroom Classic
+** Adobe Media Encoder
+** Adobe Photoshop
+** Adobe Premier Pro
+* [Airfoil Satellite](https://rogueamoeba.com/airfoil/satellite/mac/)
 * [Airfoil](https://rogueamoeba.com/airfoil/mac/)
 * [Backblaze](https://www.backblaze.com/mac/install_backblaze.dmg)
 * [Chrome](https://www.google.com/intl/en/chrome/browser/)
@@ -360,20 +368,25 @@ Follow the setup instructions on the [Drush Launcher](https://github.com/drush-o
 * [Doxie](https://help.getdoxie.com/doxiepro/software/download/)
 * [Dropbox](https://www.dropbox.com/downloading?src=index)
 * [Encypt.me](https://encrypt.me/apps/)
+* [Figma](https://www.figma.com/download/desktop/mac)
 * [Firefox](http://www.mozilla.org/en-US/firefox/all/)
+* [HandBrake](https://handbrake.fr/rotation.php?file=HandBrake-1.6.1.dmg)
 * [Garmin Express](https://www.garmin.com/en-US/software/express)
 * [iTerm2](https://www.iterm2.com/)
 * [JetBrains Toolbox App](https://www.jetbrains.com/toolbox/app/)
+** DataGrip
+** GoLand
+** PhpStorm
+** PyCharm Professional
+** WebStorm
 * [Kaleidoscoope](https://www.kaleidoscopeapp.com)
 * [Keep It](http://reinventedsoftware.com/keepit/downloads/)
 * [NetNewsWire](http://netnewswireapp.com/mac/)
 * [Notion](https://www.notion.so/desktop)
 * [OmniFocus](https://www.omnigroup.com/download/latest/omnifocus)
-* [PhpStorm](https://www.jetbrains.com/phpstorm/download/)
+* [Raspberry Pi Imager](https://downloads.raspberrypi.org/imager/imager_latest.dmg)
 * [Rectangle](https://rectangleapp.com)
 * [Sequel Pro](http://www.sequelpro.com/)
-* [Sketch](https://www.sketchapp.com/download/sketch.zip)
-* [Spotify](https://www.spotify.com/us/download/other/)
 * [TablePlus](https://tableplus.com/release/osx/tableplus_latest)
 * [TextMate](http://macromates.com/download)
 * [TrainerRoad](https://reinventedsoftware.com/keepit/)
@@ -389,7 +402,7 @@ Follow the setup instructions on the [Drush Launcher](https://github.com/drush-o
 ### Install from App Store
 * [Alfred](https://itunes.apple.com/us/app/alfred/id405843582?mt=12)
 * [Amphetamine](https://itunes.apple.com/us/app/amphetamine/id937984704?mt=12)
-* [Better Renamer 9](https://itunes.apple.com/us/app/better-rename-9/id414209656?mt=12)
+* [Better Rename](https://itunes.apple.com/us/app/better-rename-9/id414209656?mt=12)
 * [Mela](https://apps.apple.com/us/app/mela-recipe-manager/id1568924476)
 * [Reeder](https://apps.apple.com/app/id1529448980)
 * [Slack](https://itunes.apple.com/se/app/slack/id803453959?mt=12)
