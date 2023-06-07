@@ -14,10 +14,10 @@ Configuration of macOS and installation and configuration of various application
 
 ## Dotfiles
 
-Can clone the repository wherever you want. (I like to keep it in `~/Projects/dotfiles`, with `~/dotfiles` as a symlink.) The bootstrapper script will pull in the latest version and copy the files to your home folder.
+Can clone this repository wherever you want. (I like to keep it in `~/Projects/dotfiles`, with `~/.files` as a symlink.) The bootstrapper script will pull in the latest version and copy the files to your home folder.
 
 ```bash
-git clone git@github.com:greylabel/g.files.git && cd dotfiles && source bootstrap.sh
+git clone git@github.com:greylabel/dotfiles.git && cd dotfiles && source bootstrap.sh
 ```
 
 To update, `cd` into your local `dotfiles` repository and then:
@@ -26,23 +26,26 @@ To update, `cd` into your local `dotfiles` repository and then:
 source bootstrap.sh
 ```
 
-Alternatively, to update while avoiding the confirmation prompt:
+To update while avoiding the confirmation prompt:
 
 ```bash
 set -- -f; source bootstrap.sh
 ```
 
+Alternatively, [Mac Development Ansible Playbook](https://github.com/greylabel/mac-dev-playbook), which configures a Mac from scratch using Ansible, and incorporates the installation and updating of a set of dotfiles like this one.
+
+
 ### Specify the `$PATH`
 
-If `~/.path` exists, it will be sourced along with the other files, before any feature testing (such as [detecting which version of `ls` is being used](https://github.com/greylabel/g.files/blob/master/.aliases#L18)) takes place.
+If `~/.path` exists, it will be sourced along with the other files, before any feature testing (such as [detecting which version of `ls` is being used](https://github.com/greylabel/dotfiles/blob/master/.aliases#L18)) takes place.
 
 ### Add custom commands without creating a new fork
 
 If `~/.extra` exists, it will be sourced along with the other files. You can use this to add a few custom commands without the need to fork this entire repository, or to add commands you don’t want to commit to a public repository.
 
-You could also use `~/.extra` to override settings, functions and aliases from these dotfiles repository. It’s probably better to [fork this repository](https://github.com/greylabel/g.files/fork) instead, though.
+You could also use `~/.extra` to override settings, functions and aliases from these dotfiles repository. It’s probably better to [fork this repository](https://github.com/greylabel/dotfiles/fork) instead, though.
 
-## Configuration
+## Additional and notabel configuration
 
 ### Git
 Create and use `~/.gitconfig.local` file for username / github token / etc.
