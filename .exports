@@ -39,6 +39,8 @@ export BASH_SILENCE_DEPRECATION_WARNING=1;
 
 ###
 
+# Tell homebrew to not autoupdate every single time I run it (just once a week).
+export HOMEBREW_AUTO_UPDATE_SECS=604800
 
 export LESS='-M'
 
