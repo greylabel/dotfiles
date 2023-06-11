@@ -1,106 +1,52 @@
-" Use the Solarized Dark theme
-set background=dark
-colorscheme solarized
-let g:solarized_termtrans=1
+syntax on               " enable syntax highlighting
+set cursorline          " highlight the current line
+" set background=dark   " darker color scheme
+" set ruler             " show line number in bar
+set nobackup            " don't create pointless backup files; Use VCS instead
+set autoread            " watch for file changes
+set number              " show line numbers
+set showcmd             " show selection metadata
+set showmode            " show INSERT, VISUAL, etc. mode
+set showmatch           " show matching brackets
+set autoindent smartindent  " auto/smart indent
+set smarttab            " better backspace and tab functionality
+set scrolloff=5         " show at least 5 lines above/below
+filetype on             " enable filetype detection
+filetype indent on      " enable filetype-specific indenting
+filetype plugin on      " enable filetype-specific plugins
+" colorscheme cobalt      " requires cobalt.vim to be in ~/.vim/colors
 
-" Make Vim more useful
-set nocompatible
-" Use the OS clipboard by default (on versions compiled with `+clipboard`)
-set clipboard=unnamed
-" Enhance command-line completion
-set wildmenu
-" Allow cursor keys in insert mode
-set esckeys
-" Allow backspace in insert mode
-set backspace=indent,eol,start
-" Optimize for fast terminal connections
-set ttyfast
-" Add the g flag to search/replace by default
-set gdefault
-" Use UTF-8 without BOM
-set encoding=utf-8 nobomb
-" Change mapleader
-let mapleader=","
-" Don’t add empty newlines at the end of files
-set binary
-set noeol
-" Centralize backups, swapfiles and undo history
-set backupdir=~/.vim/backups
-set directory=~/.vim/swaps
-if exists("&undodir")
-	set undodir=~/.vim/undo
-endif
+" column-width visual indication
+let &colorcolumn=join(range(81,999),",")
+highlight ColorColumn ctermbg=235 guibg=#001D2F
 
-" Don’t create backups when editing files in certain directories
-set backupskip=/tmp/*,/private/tmp/*
+" tabs and indenting
+set autoindent          " auto indenting
+set smartindent         " smart indenting
+set expandtab           " spaces instead of tabs
+set tabstop=2           " 2 spaces for tabs
+set shiftwidth=2        " 2 spaces for indentation
 
-" Respect modeline in files
-set modeline
-set modelines=4
-" Enable per-directory .vimrc files and disable unsafe commands in them
-set exrc
-set secure
-" Enable line numbers
-set number
-" Enable syntax highlighting
-syntax on
-" Highlight current line
-set cursorline
-" Make tabs as wide as two spaces
-set tabstop=2
-" Show “invisible” characters
-set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
-set list
-" Highlight searches
-set hlsearch
-" Ignore case of searches
-set ignorecase
-" Highlight dynamically as pattern is typed
-set incsearch
-" Always show status line
-set laststatus=2
-" Enable mouse in all modes
-set mouse=a
-" Disable error bells
-set noerrorbells
-" Don’t reset cursor to start of line when moving around.
-set nostartofline
-" Show the cursor position
-set ruler
-" Don’t show the intro message when starting Vim
-set shortmess=atI
-" Show the current mode
-set showmode
-" Show the filename in the window titlebar
-set title
-" Show the (partial) command as it’s being typed
-set showcmd
-" Use relative line numbers
-if exists("&relativenumber")
-	set relativenumber
-	au BufReadPost * set relativenumber
-endif
-" Start scrolling three lines before the horizontal window border
-set scrolloff=3
+" bells
+set noerrorbells        " turn off audio bell
+set visualbell          " but leave on a visual bell
 
-" Strip trailing whitespace (,ss)
-function! StripWhitespace()
-	let save_cursor = getpos(".")
-	let old_query = getreg('/')
-	:%s/\s\+$//e
-	call setpos('.', save_cursor)
-	call setreg('/', old_query)
-endfunction
-noremap <leader>ss :call StripWhitespace()<CR>
-" Save a file as root (,W)
-noremap <leader>W :w !sudo tee % > /dev/null<CR>
+" search
+set hlsearch            " highlighted search results
+set showmatch           " show matching bracket
 
-" Automatic commands
-if has("autocmd")
-	" Enable file type detection
-	filetype on
-	" Treat .json files as .js
-	autocmd BufNewFile,BufRead *.json setfiletype json syntax=javascript
-	" Treat .md files as Markdown
-	autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
-endif
+" other
+set guioptions=aAace    " don't show scrollbar in MacVim
+" call pathogen#infect()  " use pathogen
+
+" clipboard
+set clipboard=unnamed   " allow yy, etc. to interact with OS X clipboard
+
+" shortcuts
+map <F2> :NERDTreeToggle<CR>
+
+" remapped keys
+inoremap {      {}<Left>
+inoremap {<CR>  {<CR>}<Esc>O
+inoremap {{     {
+inoremap {}     {}
