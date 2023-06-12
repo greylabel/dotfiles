@@ -139,7 +139,7 @@
 	ui = true
 
 	# https://github.com/dandavison/delta
-	pager = delta
+	# pager = delta
 
 [color "branch"]
 
