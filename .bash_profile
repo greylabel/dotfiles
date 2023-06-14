@@ -20,10 +20,11 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 
-###
-
 # Add 1Password plugins
 source ~/.config/op/plugins.sh
+
+
+### https://github.com/mathiasbynens/dotfiles/blob/main/.bash_profile
 
 # Add `~/bin` to the `$PATH`
 # export PATH="$HOME/bin:$PATH";

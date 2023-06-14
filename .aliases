@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+### https://github.com/mathiasbynens/dotfiles/blob/main/.aliases
+
 # Easier navigation: .., ..., ...., ....., ~ and -
 alias ..="cd .."
 alias ...="cd ../.."
@@ -170,7 +172,7 @@ alias db="cd ~/Dropbox"
 alias df='df -h' # Human readable output
 alias dr="df -P -kHl" # Diskspace report
 alias du='du -h' # Human readable output
-alias fs="stat -f \"%z bytes\"" # File size
+# alias fs="stat -f \"%z bytes\"" # File size - defined in .functions
 alias h="history"
 alias hosts='sudo $EDITOR /etc/hosts'
 alias mkdir='mkdir -p' # Create [p]arents if needed
