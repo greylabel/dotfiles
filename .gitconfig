@@ -1,3 +1,5 @@
+### https://git-scm.com/docs/git-config
+
 [alias]
 
   # View abbreviated SHA, description, and history graph of the latest 20 commits
@@ -63,27 +65,10 @@
   # List contributors with number of commits
   contributors = shortlog --summary --numbered
 
-  # Merge GitHub pull request on top of the current branch or,
-  # if a branch name is specified, on top of the specified branch
-  mpr = "!f() { \
-    declare currentBranch=\"$(git symbolic-ref --short HEAD)\"; \
-    declare branch=\"${2:-$currentBranch}\"; \
-    if [ $(printf \"%s\" \"$1\" | grep '^[0-9]\\+$' > /dev/null; printf $?) -eq 0 ]; then \
-      git fetch origin refs/pull/$1/head:pr/$1 && \
-      git checkout -B $branch && \
-      git rebase $branch pr/$1 && \
-      git checkout -B $branch && \
-      git merge pr/$1 && \
-      git branch -D pr/$1 && \
-      git commit --amend -m \"$(git log -1 --pretty=%B)\n\nCloses #$1.\"; \
-    fi \
-  }; f"
-
   # Show the user email for the current repository.
   whoami = config user.email
 
-
-  # shows me just my commits
+  # Shows just my commits.
   mine = "!f() { git log --no-merges --author=$(git config user.email) $*; }; f"
 
 [apply]
@@ -92,14 +77,18 @@
   whitespace = fix
 
 [branch]
+
+  # Rebase will be set to true for all tracking branches.
   autosetuprebase = always
 
-	# Show most recently changed branches first.
-	sort = -committerdate
+  # Show most recently changed branches first.
+  sort = -committerdate
+
+[checkout]
+
+	defaultRemote = origin
 
 [core]
-
-  autocrlf = input
 
   # Use custom `.gitignore` and `.gitattributes`
   excludesfile = ~/.gitignore
@@ -123,23 +112,20 @@
   untrackedCache = true
 
 
+  # No line ending output conversion is performed.
+  autocrlf = input
+
   # Use Less for pager.
-  pager = less -R
+  # pager = less -R
+
+  # Use Delta for pager.
+  pager = delta
 
 [color]
 
-  # Use colors in Git commands that are capable of colored output when
-  # outputting to the terminal. (This is the default setting in Git ≥ 1.8.4.)
-	branch = true
-	diff = true
-	grep = true
-	interactive = true
-	log = true
-	status = true
-	ui = true
-
-	# https://github.com/dandavison/delta
-	# pager = delta
+	# Use colors in Git commands that are capable of colored output when
+	# outputting to the terminal. (This is the default setting in Git ≥ 1.8.4.)
+	ui = auto
 
 [color "branch"]
 
@@ -149,10 +135,17 @@
 
 [color "diff"]
 
-  meta = yellow bold
-  frag = magenta bold # line info
-  old = red # deletions
-  new = green # additions
+	meta = yellow bold
+	commit = green bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse
+
+	newMoved = cyan dim
+	oldMoved = blue dim
+	newMovedAlternative = cyan italic
+	oldMovedAlternative = blue italic
 
 [color "status"]
 
@@ -211,20 +204,27 @@
   path = ~/.gitconfig.local
 
 [init]
+
   defaultBranch = main
 
 [interactive]
+
   diffFilter = delta --color-only --features=interactive
 
-
 [log]
+
   # https://github.com/git/git/commit/acdd37769de8b0fe37a74bfc0475b63bdc55e9dc
   date = human
 
 [merge]
 
+  conflictstyle = diff3
+
   # Include summaries of merged commits in newly created merge commit messages
   log = true
+
+  # tool = opendiff
+  # renameLimit = 0
 
 [pager]
 
@@ -232,14 +232,26 @@
   difftool = true
 
 [protocol]
+
+  # faster git server communication.
   version = 2
+
+[pull]
+
+	ff = only
+	default = current
 
 [push]
 
   # https://git-scm.com/docs/git-config#git-config-pushdefault
   default = simple
+  # default = current
+
   # Make `git push` push relevant annotated tags when pushing branches out.
   followTags = true
+
+  # --set-upstream on default push when no upstream tracking exists for branch.
+  autoSetupRemote = true
 
 [rebase]
 
@@ -248,9 +260,11 @@
   autoStash = true
 
 [rerere]
+
   enabled = 1
 
 [stash]
+
   showPatch = true
 
 [status]
@@ -261,24 +275,23 @@
 
 [url "git@github.com:"]
 
-  insteadOf = "gh:"
-  pushInsteadOf = "github:"
-  pushInsteadOf = "git://github.com/"
+	insteadOf = "gh:"
+	pushInsteadOf = "github:"
+	pushInsteadOf = "git://github.com/"
 
 [url "git://github.com/"]
 
-  insteadOf = "github:"
+	insteadOf = "github:"
 
 [url "git@gist.github.com:"]
 
-  insteadOf = "gst:"
-  pushInsteadOf = "gist:"
-  pushInsteadOf = "git://gist.github.com/"
+	insteadOf = "gst:"
+	pushInsteadOf = "gist:"
+	pushInsteadOf = "git://gist.github.com/"
 
 [url "git://gist.github.com/"]
 
-  insteadOf = "gist:"
-
+	insteadOf = "gist:"
 
 [gist]
 
