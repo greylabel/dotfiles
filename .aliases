@@ -150,29 +150,32 @@ alias path='echo -e ${PATH//:/\\n}'
 
 ###
 
+# Verbose mv, rm, cp
+alias mv='mv -v'
+alias rm='rm -i -v' # Interactive
+alias cp='cp -v'
 
-alias ll="ls -laGFh"
-alias home="cd ~/"
-alias h="history"
-alias pdw='pwd'
-
-# mv, rm, cp
-alias mv='mv -i'
-alias cp='cp -i'
-alias rm='rm -i'
-
-alias df='df -h'
-alias du='du -h'
-alias mkdir='mkdir -p'
-
-alias rg='grep -i -r'
-
+# Remove e[x]ecutable rights
 alias chmox='chmod -x'
 
-alias hosts='sudo $EDITOR /etc/hosts'
+# List all files in long format list in using human-readable units
+alias ll="ls -laFh ${colorflag}"
 
-# File size
-alias fs="stat -f \"%z bytes\""
+# Shortcuts for home directories
+alias home="cd ~/"
+alias ic="cd ~/Library/Mobile\ Documents/com~apple~CloudDocs/" # iCloud Drive
+alias db="cd ~/Dropbox"
+
+# Shortcuts for frequent commands
+alias df='df -h' # Human readable output
+alias dr="df -P -kHl" # Diskspace report
+alias du='du -h' # Human readable output
+alias fs="stat -f \"%z bytes\"" # File size
+alias h="history"
+alias hosts='sudo $EDITOR /etc/hosts'
+alias mkdir='mkdir -p' # Create [p]arents if needed
+alias rg='grep -i -r' # Case insensitive and search recursively
+alias ungz="gunzip -k" # Keep input files
 
 # Docker
 alias up="docker-compose up"
