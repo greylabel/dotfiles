@@ -1,20 +1,22 @@
 # Dotfiles
 
-#### Based on recipes and examples from
+#### Based on recipes and examples from the below resources, among others...
 * [Mathias Bynens](https://github.com/mathiasbynens/dotfiles)
 * [Paul Irish](https://github.com/paulirish/dotfiles)
 * [dotfiles](https://dotfiles.github.io)
 * [Mac OS X Setup Guide](http://sourabhbajaj.com/mac-setup/)
 
-**Warning:** If you want to give these tools a try, you should first fork this repository, review the code, and remove things you don’t want or need. Don’t blindly use my settings unless you know what that entails. Use at your own risk!
+**Warning:** If you want to give these tools a try, you should first fork this repository, review the code, and remove things you don’t want or need. Don’t blindly use these settings unless you know what that entails. Use at your own risk!
 
-## macOS Setup
+## Automated macOS Setup
 
-Configuration of macOS and installation and configuration of various applications is handled through the  [Mac Development Ansible Playbook](https://github.com/greylabel/mac-dev-playbook).
+Configuration of macOS and the installation and configuration of various applications, including those installed with Homebrew, is handled through the [Mac Development Ansible Playbook](https://github.com/greylabel/mac-dev-playbook), and which is controlled and automated by Ansible wherever possible.
 
-## Dotfiles
+The [Mac Development Ansible Playbook](https://github.com/greylabel/mac-dev-playbook) incorporates the installation and updating of a set of dotfiles like this one.
 
-Can clone this repository wherever you want. (I like to keep it in `~/Projects/dotfiles`, with `~/.files` as a symlink.) The bootstrapper script will pull in the latest version and copy the files to your home folder.
+## Install from this repo directly
+
+To use these dotfiles directly, clone or download a copy of this repository. The bootstrapper script will pull in the latest version and copy the files to your home folder.
 
 ```bash
 git clone git@github.com:greylabel/dotfiles.git && cd dotfiles && source bootstrap.sh
@@ -32,55 +34,31 @@ To update while avoiding the confirmation prompt:
 set -- -f; source bootstrap.sh
 ```
 
-Alternatively, [Mac Development Ansible Playbook](https://github.com/greylabel/mac-dev-playbook), which configures a Mac from scratch using Ansible, and incorporates the installation and updating of a set of dotfiles like this one.
+## Extending and overriding
+### Additions to `$PATH`
 
+If `~/.path` exists, it will be sourced along with the other files, before any feature testing (such as [detecting which version of `ls` is being used](https://github.com/greylabel/dotfiles/blob/master/.aliases#L20)) takes place.
 
-### Specify the `$PATH`
-
-If `~/.path` exists, it will be sourced along with the other files, before any feature testing (such as [detecting which version of `ls` is being used](https://github.com/greylabel/dotfiles/blob/master/.aliases#L18)) takes place.
-
-### Add custom commands without creating a new fork
+### Add custom commands
 
 If `~/.extra` exists, it will be sourced along with the other files. You can use this to add a few custom commands without the need to fork this entire repository, or to add commands you don’t want to commit to a public repository.
 
 You could also use `~/.extra` to override settings, functions and aliases from these dotfiles repository. It’s probably better to [fork this repository](https://github.com/greylabel/dotfiles/fork) instead, though.
 
-## Additional and notabel configuration
+## Additional and notable configuration
 
 ### Git
-Create and use `~/.gitconfig.local` file for username / github token / etc.
+Create a `~/.gitconfig.local` file for username / github token / etc.
 
 ```
 [user]
 
-  name = Grant Gaudet
-  email = grant@greylabel.net
+  name = <Your Name>
+  email = <you@example.com>
+  signingkey = ~/.ssh/id_ed25519.pub
 
 [github]
 
-  user = greylabel
+  user = ghusername
+
 ```
-
-## Go
-See `.exports`.
-
-```bash
-export GOPATH=$HOME/go
-export GOROOT=/usr/local/opt/go/libexec
-export PATH=$PATH:$GOPATH/bin
-export PATH=$PATH:$GOROOT/bin
-```
-
-## PHP
-
-See `.bash_profile`.
-
-`PATH="/usr/local/opt/php@8.2/bin:$PATH"`
-`PATH="/usr/local/opt/php@8.2/sbin:$PATH"`
-
-### Composer for PHP
-
-See `.exports`.
-
-`export COMPOSER_PROCESS_TIMEOUT=2000`
-`export COMPOSER_MEMORY_LIMIT=-1`
