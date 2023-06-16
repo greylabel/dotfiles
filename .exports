@@ -39,6 +39,9 @@ export BASH_SILENCE_DEPRECATION_WARNING=1;
 
 ###
 
+# Prefer US English and use UTF-8.
+export LANGUAGE=en_US.UTF-8
+
 # highlighting inside manpages and elsewhere
 export LESS_TERMCAP_mb=$(printf '\e[01;31m')  # enter blinking mode – red
 export LESS_TERMCAP_md=$(printf '\e[01;35m') # enter double-bright mode – bold, magenta
