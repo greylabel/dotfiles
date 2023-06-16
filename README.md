@@ -62,3 +62,72 @@ Create a `~/.gitconfig.local` file for username / github token / etc.
   user = ghusername
 
 ```
+
+### SSH
+#### Generating a new SSH key
+
+> See Github's [Generating a new SSH key and adding it to the ssh-agent](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/) for more information.
+
+Create directory for SSH keys and configuration and set permissions.
+```bash
+mkdir ~/.ssh
+chmod 0700 ~/.ssh
+```
+Generate a new SSH key.
+```bash
+ssh-keygen -t ed25519
+chmod 600 ~/.ssh/id_ed25519
+chmod 644 ~/.ssh/id_ed25519.pub
+```
+
+#### Adding your SSH key to the ssh-agent
+```bash
+eval "$(ssh-agent -s)"
+```
+
+Modify the `~/.ssh/config` file to automatically load keys into the ssh-agent and store passphrases in your keychain.
+```bash
+IgnoreUnknown AddKeysToAgent,UseKeychain
+
+Host *
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_ed25519
+```
+
+Set permissions on the `~/.ssh/config` file.
+```bash
+chmod 644 ~/.ssh/config
+```
+
+```bash
+ssh-add --apple-use-keychain ~/.ssh/id_ed25519
+```
+
+### Allowed Signers
+See:
+- https://man7.org/linux/man-pages/man1/ssh-keygen.1.html#ALLOWED_SIGNERS
+- https://docs.gitlab.com/ee/user/project/repository/ssh_signed_commits/
+
+Create or copy an existing `allowed_signers` file.
+
+```bash
+touch ~/.ssh/allowed_signers
+```
+
+Add an entry with a public key.
+
+```bash
+<you@example.com> namespaces="git" <public key>
+```
+
+At this point, the new key can be added to GitHub and other cloud services.
+
+#### Adding a passphrase to an existing SSH key
+
+Add/replace the passphrase for an existing private key without regenerating the keypair.
+
+```bash
+ssh-keygen -p -f ~/.ssh/id_ed25519
+```
+
