@@ -155,8 +155,7 @@
 
 [commit]
 
-  # https://help.github.com/articles/signing-commits-using-gpg/
-  # gpgsign = true
+  gpgsign = true
 
 [delta]
   max-line-length = 700
@@ -192,6 +191,14 @@
   # Before fetching, remove any remote-tracking references that no longer
   # exist on the remote.
   prune = true
+
+[gpg]
+
+  format = ssh
+
+[gpg "ssh"]
+
+  allowedSignersFile = "~/.ssh/allowed_signers"
 
 [help]
 
