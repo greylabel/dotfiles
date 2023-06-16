@@ -162,6 +162,7 @@ alias chmox='chmod -x'
 
 # List all files in long format list in using human-readable units
 alias ll="ls -laFh ${colorflag}"
+alias le="ls -laFhe ${colorflag}"
 
 # Shortcuts for home directories
 alias home="cd ~/"
