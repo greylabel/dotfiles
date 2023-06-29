@@ -186,3 +186,6 @@ alias down="docker-compose down"
 
 # Symfony
 alias sc="symfony console"
+
+# pNPm
+alias p="pnpm"
