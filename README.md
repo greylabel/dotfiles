@@ -64,28 +64,35 @@ Create a `~/.gitconfig.local` file for username / github token / etc.
 ```
 
 ### SSH
-#### Generating a new SSH key
+#### Generating a new SSH key pair
 
 > See Github's [Generating a new SSH key and adding it to the ssh-agent](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/) for more information.
 
 Create directory for SSH keys and configuration and set permissions.
 ```bash
-mkdir ~/.ssh
-chmod 0700 ~/.ssh
+mkdir ~/.ssh && chmod 0700 ~/.ssh
 ```
+
 Generate a new SSH key.
 ```bash
 ssh-keygen -t ed25519
-chmod 600 ~/.ssh/id_ed25519
-chmod 644 ~/.ssh/id_ed25519.pub
 ```
 
-#### Adding your SSH key to the ssh-agent
+Set permissions.
 ```bash
-eval "$(ssh-agent -s)"
+chmod 600 ~/.ssh/id_ed25519 && chmod 644 ~/.ssh/id_ed25519.pub
+```
+
+#### SSH Configuration
+
+Create and set permissions on the `~/.ssh/config` file.
+
+```bash
+touch ~/.ssh/config && chmod 644 ~/.ssh/config
 ```
 
 Modify the `~/.ssh/config` file to automatically load keys into the ssh-agent and store passphrases in your keychain.
+
 ```bash
 IgnoreUnknown AddKeysToAgent,UseKeychain
 
@@ -95,9 +102,9 @@ Host *
   IdentityFile ~/.ssh/id_ed25519
 ```
 
-Set permissions on the `~/.ssh/config` file.
+#### Adding your SSH key to the ssh-agent
 ```bash
-chmod 644 ~/.ssh/config
+eval "$(ssh-agent -s)"
 ```
 
 ```bash
@@ -109,14 +116,12 @@ See:
 - https://man7.org/linux/man-pages/man1/ssh-keygen.1.html#ALLOWED_SIGNERS
 - https://docs.gitlab.com/ee/user/project/repository/ssh_signed_commits/
 
-Create or copy an existing `allowed_signers` file.
-
+Create and set permissions on the `allowed_signers` file.
 ```bash
-touch ~/.ssh/allowed_signers
+touch ~/.ssh/allowed_signers && chmod 644 ~/.ssh/allowed_signers
 ```
 
 Add an entry with a public key.
-
 ```bash
 <you@example.com> namespaces="git" <public key>
 ```
@@ -131,3 +136,20 @@ Add/replace the passphrase for an existing private key without regenerating the 
 ssh-keygen -p -f ~/.ssh/id_ed25519
 ```
 
+### Directories for source code
+Create `Projects` and `Sites` home directories — generally will contain source code and websites, respectively.
+```bash
+mkdir ~/Projects && chmod u+rwx,go-rwx ~/Projects
+```
+```bash
+mkdir ~/Sites && chmod u+rwx,go-rwx ~/Sites
+```
+
+###### ACLs for Projects and Sites
+Set ACLs for Projects and Sites to prevent accidental deletion.
+```bash
+chmod +a "group:everyone deny delete" ~/Projects
+```
+```bash
+chmod +a "group:everyone deny delete" ~/Sites
+```
