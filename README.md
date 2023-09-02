@@ -155,11 +155,20 @@ chmod +a "group:everyone deny delete" ~/Sites
 ```
 
 ## Homebrew
+For reference, the official command to install Homebrew with `curl` is below.
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+> Note: If some Homebrew commands fail, you might need to agree to Xcode's license or fix some other issue. Run `brew doctor` to see if this is the case.
+
 ### Bash from Homebrew
 ```bash
 # Save Homebrew’s installed location.
 BREW_PREFIX=$(brew --prefix)
+```
 
+```bash
 # Switch to using brew-installed bash as default shell
 if ! fgrep -q "${BREW_PREFIX}/bin/bash" /etc/shells; then
   echo "${BREW_PREFIX}/bin/bash" | sudo tee -a /etc/shells;
