@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+### https://github.com/mathiasbynens/dotfiles/blob/main/bootstrap.sh
+
 cd "$(dirname "${BASH_SOURCE}")";
 
 git pull origin main;

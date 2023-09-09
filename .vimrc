@@ -1,3 +1,5 @@
+" https://github.com/geerlingguy/dotfiles/blob/master/.vimrc
+
 syntax on               " enable syntax highlighting
 set cursorline          " highlight the current line
 " set background=dark   " darker color scheme

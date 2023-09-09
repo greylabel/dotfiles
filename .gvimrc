@@ -1,3 +1,5 @@
+" ### https://github.com/mathiasbynens/dotfiles/blob/main/.gvimrc
+
 " Use the Solarized Dark theme
 set background=dark
 colorscheme solarized
