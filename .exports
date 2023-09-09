@@ -53,7 +53,8 @@ export LESS_TERMCAP_us=$(printf '\e[04;36m')  # enter underline mode – cyan
 
 # Tell homebrew to not autoupdate every single time I run it (just once a week).
 export HOMEBREW_AUTO_UPDATE_SECS=604800
-# export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+export HOMEBREW_NO_ANALYTICS=1
 
 export LESS='-M'
 
@@ -66,13 +67,6 @@ export LESS='-M'
 #   export VISUAL=vim
 #   export EDITOR="$VISUAL"
 # fi
-
-# export PS1="\W > "
-
-export GOPATH=$HOME/Projects/go
-export GOROOT=/usr/local/opt/go/libexec
-export PATH=$PATH:$GOPATH/bin
-export PATH=$PATH:$GOROOT/bin
 
 export COMPOSER_PROCESS_TIMEOUT=2000
 export COMPOSER_MEMORY_LIMIT=-1

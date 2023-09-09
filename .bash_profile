@@ -1,18 +1,26 @@
-# Add Homebrew `/usr/local/bin` and User `~/bin` to the `$PATH`
 PATH="/opt/homebrew/bin:$PATH"
 PATH="/opt/homebrew/sbin:$PATH"
 PATH="/usr/local/bin:$PATH"
 PATH="/usr/local/sbin:$PATH"
 PATH="$HOME/bin:$PATH"
-PATH="/usr/local/opt/python/libexec/bin:$PATH"
-PATH="/usr/local/opt/go/libexec/bin:$PATH"
+# Go
+export GOPATH=$HOME/Projects/Go
+export GOROOT="$(brew --prefix golang)/libexec"
+PATH="$GOPATH/bin:$PATH"
+PATH="$GOROOT/bin:$PATH"
+# PHP
 PATH="/usr/local/opt/php@8.2/bin:$PATH"
 PATH="/usr/local/opt/php@8.2/sbin:$PATH"
-
 export PATH
 
-eval "$(rbenv init -)"
+# Python version and venv management
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+# Ruby version management
+eval "$(rbenv init -)"
 
 # Load nvm and nvm bash_completion
 export NVM_DIR="$HOME/.nvm"
