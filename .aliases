@@ -188,4 +188,4 @@ alias down="docker-compose down"
 alias sc="symfony console"
 
 # pNPm
-alias p="pnpm"
+alias pn="pnpm"
