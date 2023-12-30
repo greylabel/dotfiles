@@ -1,0 +1,26 @@
+### https://github.com/paulirish/dotfiles/blob/main/cron/crontab
+
+# whats in the real crontab and this file are technically two diff things
+# for now we just manually make sure this matches whats in `crontab -e`
+# todo: implement something like this? https://blog.chmd.fr/saving-your-crontab-in-your-dotfiles.html
+#
+# to edit real crontab:
+#    env EDITOR=nano crontab -e
+#
+# make sure all scripts are executable.
+# chmod +x *.sh
+
+#=====================================================================#
+#     0-23   0-59               0-30  0-6   1-12                      #
+#     |_    _|                 _|    _|    _|                         #
+#       |  |                  |     |     |            * any          #
+#    At HH:MM on day-of-month MD on WD in M            - range        #
+#       |  |                  |     |     |            , array        #
+#     __|__|            ______|     |   __|            / step         #
+#    |  |            __|         ___|__|                              #
+#   _|  |__         |         __|   |__                               #
+#  |       |        |        |         |                              #
+#  |       |        |        |         |                              #
+#=====================================================================#
+#  Min  |  Hour  |  Mday  |  Month  |  Wday  |  Command               #
+#=====================================================================#
