@@ -164,6 +164,14 @@ alias chmox='chmod -x'
 alias ll="ls -laFh ${colorflag}"
 alias le="ls -laFhe ${colorflag}"
 
+# List current directory contents separated by null characters, suitable for piping to xargs -0
+alias ls0="find . -maxdepth 1 -print0"
+
+# Shorter pushd popd, and "oops I forgot to pushd"
+alias gd=pushd
+alias pd=popd
+alias sd='pushd - && pushd'
+
 # Shortcuts for home directories
 alias home="cd ~/"
 alias ic="cd ~/Library/Mobile\ Documents/com~apple~CloudDocs/" # iCloud Drive

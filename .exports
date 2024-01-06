@@ -41,10 +41,13 @@ export BASH_SILENCE_DEPRECATION_WARNING=1;
 
 ###
 
-# Prefer US English and use UTF-8.
+# Persisten change directory access to $HOME contents
+# export CDPATH=$HOME
+
+# Prefer US English and use UTF-8
 export LANGUAGE=en_US.UTF-8
 
-# highlighting inside manpages and elsewhere
+# Highlighting inside manpages and elsewhere
 export LESS_TERMCAP_mb=$(printf '\e[01;31m')  # enter blinking mode – red
 export LESS_TERMCAP_md=$(printf '\e[01;35m') # enter double-bright mode – bold, magenta
 export LESS_TERMCAP_me=$(printf '\e[0m')  # turn off all appearance modes (mb, md, so, us)
@@ -53,13 +56,13 @@ export LESS_TERMCAP_so=$(printf '\e[01;33m')  # enter standout mode – yellow
 export LESS_TERMCAP_ue=$(printf '\e[0m')  # leave underline mode
 export LESS_TERMCAP_us=$(printf '\e[04;36m')  # enter underline mode – cyan
 
-# Tell homebrew to not autoupdate every single time I run it (just once a week).
+# Tell homebrew to not autoupdate every single time I run it (just once a week)
 export HOMEBREW_AUTO_UPDATE_SECS=604800
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 export HOMEBREW_NO_ANALYTICS=1
 
+# Set default editor
 export LESS='-M'
-
 # export EDITOR="/usr/local/bin/mate -w"
 
 # Preferred editor for local and remote sessions
@@ -70,5 +73,6 @@ export LESS='-M'
 #   export EDITOR="$VISUAL"
 # fi
 
+# Composer PHP package manager
 export COMPOSER_PROCESS_TIMEOUT=2000
 export COMPOSER_MEMORY_LIMIT=-1
