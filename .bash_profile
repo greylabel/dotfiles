@@ -3,14 +3,16 @@ PATH="/opt/homebrew/sbin:$PATH"
 PATH="/usr/local/bin:$PATH"
 PATH="/usr/local/sbin:$PATH"
 PATH="$HOME/bin:$PATH"
+
 # Go
 export GOPATH=$HOME/Projects/Go
 export GOROOT="$(brew --prefix golang)/libexec"
 PATH="$GOPATH/bin:$PATH"
 PATH="$GOROOT/bin:$PATH"
+
 # PHP
-PATH="/usr/local/opt/php@8.2/bin:$PATH"
-PATH="/usr/local/opt/php@8.2/sbin:$PATH"
+PATH="/usr/local/opt/php@8.3/bin:$PATH"
+PATH="/usr/local/opt/php@8.3/sbin:$PATH"
 export PATH
 
 # Python version and venv management
