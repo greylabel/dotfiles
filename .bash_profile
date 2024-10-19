@@ -2,6 +2,7 @@ PATH="/opt/homebrew/bin:$PATH"
 PATH="/opt/homebrew/sbin:$PATH"
 PATH="/usr/local/bin:$PATH"
 PATH="/usr/local/sbin:$PATH"
+PATH="$HOME/.local/bin:$PATH"
 PATH="$HOME/bin:$PATH"
 
 # Go
