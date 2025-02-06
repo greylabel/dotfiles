@@ -195,5 +195,7 @@ alias down="docker-compose down"
 # Symfony
 alias sc="symfony console"
 
-# pNPm
+# pnpm
 alias pn="pnpm"
+# poetry
+alias pt="poetry"
