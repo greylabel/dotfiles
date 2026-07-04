@@ -6,8 +6,7 @@ fi;
 
 ### https://github.com/mathiasbynens/dotfiles/blob/main/.bash_prompt
 
-# Shell prompt based on the Solarized Dark theme.
-# Screenshot: http://i.imgur.com/EkEtphC.png
+# Shell prompt based on the Tokyo Night Storm theme.
 # Heavily inspired by @necolas’s prompt: https://github.com/necolas/dotfiles
 # iTerm → Profiles → Text → use 13pt Monaco with 1.1 vertical spacing.
 
@@ -67,17 +66,17 @@ if tput setaf 1 &> /dev/null; then
 	tput sgr0; # reset colors
 	bold=$(tput bold);
 	reset=$(tput sgr0);
-	# Solarized colors, taken from http://git.io/solarized-colors.
-	black=$(tput setaf 0);
-	blue=$(tput setaf 33);
-	cyan=$(tput setaf 37);
-	green=$(tput setaf 64);
-	orange=$(tput setaf 166);
-	purple=$(tput setaf 125);
-	red=$(tput setaf 124);
-	violet=$(tput setaf 61);
-	white=$(tput setaf 15);
-	yellow=$(tput setaf 136);
+	# Tokyo Night Storm colors (ANSI 0–15, remapped by the terminal theme).
+	black=$(tput setaf 0);   # #1d202f
+	blue=$(tput setaf 4);    # #7aa2f7
+	cyan=$(tput setaf 6);    # #7dcfff
+	green=$(tput setaf 2);   # #9ece6a
+	orange=$(tput setaf 3);  # #e0af68
+	purple=$(tput setaf 5);  # #bb9af7
+	red=$(tput setaf 1);     # #f7768e
+	violet=$(tput setaf 13); # #bb9af7 (bright magenta)
+	white=$(tput setaf 15);  # #c0caf5
+	yellow=$(tput setaf 6);  # #7dcfff (cyan)
 else
 	bold='';
 	reset="\e[0m";
@@ -90,7 +89,7 @@ else
 	red="\e[1;31m";
 	violet="\e[1;35m";
 	white="\e[1;37m";
-	yellow="\e[1;33m";
+	yellow="\e[1;36m";
 fi;
 
 # Highlight the user name when logged in as root.
