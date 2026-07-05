@@ -1,14 +1,31 @@
 ---
-name: ShellCheck
-'on':
+name: Shellcheck
+
+"on":
   pull_request:
+  merge_group:
   push:
     branches:
       - main
 
+permissions:
+  contents: read
+
+concurrency:
+  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+
 jobs:
-  shellcheck:
+  lint:
+    name: Shellcheck
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+
     steps:
-    - uses: actions/checkout@v7
-    - uses: bewuethr/shellcheck-action@v2
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Run ShellCheck
+        run: |
+          shellcheck bootstrap.sh .bash_prompt .exports .aliases .functions
+          shellcheck --shell=bash .bash_profile .bashrc
