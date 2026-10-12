@@ -185,3 +185,12 @@ function t() {
     mate "$@";
   fi;
 }
+
+# `gs` is a shorthand for `gh stack` if the GitHub CLI is installed.
+gs() {
+  if ! command -v gh &> /dev/null; then
+    echo "gh CLI not found"
+    return 1
+  fi
+  gh stack "$@"
+}
