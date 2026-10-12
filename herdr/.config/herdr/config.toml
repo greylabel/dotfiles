@@ -2,7 +2,7 @@
 name = "tokyo-night"
 auto_switch = true
 light_name = "tokyo-night-day"
-dark_name = "tokyo-night-storm"
+dark_name = "tokyo-night"
 
 [keys]
 prefix = "ctrl+a"
@@ -13,3 +13,5 @@ focus_pane_right = "ctrl+l"
 split_vertical = "prefix+|"
 split_horizontal = "prefix+-"
 new_tab = "prefix+c"
+
+onboarding = false
