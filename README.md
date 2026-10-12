@@ -35,6 +35,19 @@ To update while avoiding the confirmation prompt:
 set -- -f; source bootstrap.sh
 ```
 
+### tmux + TPM
+This repo's tmux config includes the TPM plugin manager bootstrap at the end of `.tmux.conf`.
+
+See the official project: https://github.com/tmux-plugins/tpm
+
+Install it once:
+
+```bash
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+```
+
+Then start tmux and press `Ctrl+A` followed by `I` to install the configured plugins.
+
 ## Extending and overriding
 
 ### Additions to `$PATH`
