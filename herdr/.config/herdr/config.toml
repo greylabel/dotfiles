@@ -1,3 +1,5 @@
+onboarding = false
+
 [theme]
 name = "tokyo-night"
 auto_switch = true
@@ -13,5 +15,3 @@ focus_pane_right = "ctrl+l"
 split_vertical = "prefix+|"
 split_horizontal = "prefix+-"
 new_tab = "prefix+c"
-
-onboarding = false
