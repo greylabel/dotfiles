@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-### https://github.com/mathiasbynens/dotfiles/blob/main/bootstrap.sh
-
 cd "$(dirname "${BASH_SOURCE}")";
 
 git pull origin main;
@@ -15,6 +13,13 @@ function doIt() {
 		--exclude "README.md" \
 		--exclude "LICENSE-MIT.txt" \
 		-avh --no-perms . ~;
+
+	config_dir="${XDG_CONFIG_HOME:-$HOME/.config}";
+	mkdir -p "$config_dir";
+	rsync -avh --no-perms ghostty/.config/ "$config_dir/";
+	rsync -avh --no-perms herdr/.config/ "$config_dir/";
+	rsync -avh --no-perms nvim/.config/ "$config_dir/";
+
 	source ~/.bash_profile;
 }
 
