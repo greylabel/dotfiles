@@ -1,3 +1,5 @@
+# https://ghostty.org/docs/config/reference
+
 theme = "dark:TokyoNight Storm, light: TokyoNight Day"
 
 font-family = "Fira Code"

@@ -1,6 +1,6 @@
 # Dotfiles
 
-Based on recipes and examples from the below resources, among others...
+Based on recipes and examples from the below resources, among others:
 
 * [Mathias Bynens](https://github.com/mathiasbynens/dotfiles)
 * [Paul Irish](https://github.com/paulirish/dotfiles)
@@ -36,9 +36,10 @@ set -- -f; source bootstrap.sh
 ```
 
 ### tmux + TPM
+
 This repo's tmux config includes the TPM plugin manager bootstrap at the end of `.tmux.conf`.
 
-See the official project: https://github.com/tmux-plugins/tpm
+See the official project: [TPM](https://github.com/tmux-plugins/tpm)
 
 Install it once:
 
@@ -76,7 +77,6 @@ Create a `~/.gitconfig.local` file for username / github token / etc.
 [github]
 
   user = ghusername
-
 ```
 
 ### SSH
@@ -135,8 +135,9 @@ ssh-add --apple-use-keychain ~/.ssh/id_ed25519
 ### Allowed Signers
 
 See:
-- https://man7.org/linux/man-pages/man1/ssh-keygen.1.html#ALLOWED_SIGNERS
-- https://docs.gitlab.com/ee/user/project/repository/ssh_signed_commits/
+
+* <https://man7.org/linux/man-pages/man1/ssh-keygen.1.html#ALLOWED_SIGNERS>
+* <https://docs.gitlab.com/ee/user/project/repository/ssh_signed_commits/>
 
 Create and set permissions on the `allowed_signers` file.
 
@@ -178,7 +179,7 @@ mkdir ~/Projects && chmod u+rwx,go-rwx ~/Projects
 mkdir ~/Sites && chmod u+rwx,go-rwx ~/Sites
 ```
 
-###### ACLs for Projects and Sites
+### ACLs for Projects and Sites
 
 Set ACLs for Projects and Sites to prevent accidental deletion.
 
