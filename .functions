@@ -1,49 +1,34 @@
 #!/usr/bin/env bash
 
-### https://github.com/mathiasbynens/dotfiles/blob/main/.functions
+# On Linux, `open` (used by `o`, `server` and `phpserver`) runs xdg-open, as
+# on macOS. A function rather than an alias, defined first, so the functions
+# below pick it up.
+if [[ "$OSTYPE" != darwin* ]]; then
+	function open() { xdg-open "$@"; }
+fi
 
 # Create a new directory and enter it
 function mkd() {
-	mkdir -p "$@" && cd "$_";
+	mkdir -p "$@" && cd "$_" || return;
 }
 
-# Change working directory to the top-most Finder window location
-function cdf() { # short for `cdfinder`
-	cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')";
-}
+# Change working directory to the top-most Finder window location (macOS)
+if [[ "$OSTYPE" == darwin* ]]; then
+	function cdf() { # short for `cdfinder`
+		cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')" || return;
+	}
+fi;
 
-# Create a .tar.gz archive, using `zopfli`, `pigz` or `gzip` for compression
+# Create a .tar.gz archive, using `pigz` (parallel gzip) when available
 function targz() {
-	local tmpFile="${@%/}.tar";
-	tar -cvf "${tmpFile}" --exclude=".DS_Store" "${@}" || return 1;
-
-	size=$(
-		stat -f"%z" "${tmpFile}" 2> /dev/null; # macOS `stat`
-		stat -c"%s" "${tmpFile}" 2> /dev/null;  # GNU `stat`
-	);
-
-	local cmd="";
-	if (( size < 52428800 )) && hash zopfli 2> /dev/null; then
-		# the .tar file is smaller than 50 MB and Zopfli is available; use it
-		cmd="zopfli";
-	else
-		if hash pigz 2> /dev/null; then
-			cmd="pigz";
-		else
-			cmd="gzip";
-		fi;
+	local archive="${1%/}.tar.gz" compressor=gzip;
+	command -v pigz > /dev/null && compressor=pigz;
+	tar -cf - --exclude=".DS_Store" "$@" | "$compressor" -9 > "$archive";
+	if [ "${PIPESTATUS[0]}" -ne 0 ] || [ "${PIPESTATUS[1]}" -ne 0 ]; then
+		rm -f "$archive";
+		return 1;
 	fi;
-
-	echo "Compressing .tar ($((size / 1000)) kB) using \`${cmd}\`…";
-	"${cmd}" -v "${tmpFile}" || return 1;
-	[ -f "${tmpFile}" ] && rm "${tmpFile}";
-
-	zippedSize=$(
-		stat -f"%z" "${tmpFile}.gz" 2> /dev/null; # macOS `stat`
-		stat -c"%s" "${tmpFile}.gz" 2> /dev/null; # GNU `stat`
-	);
-
-	echo "${tmpFile}.gz ($((zippedSize / 1000)) kB) created successfully.";
+	echo "${archive} ($(du -h "$archive" | cut -f1)) created using ${compressor}.";
 }
 
 # Determine size of a file or total size of a directory
@@ -53,16 +38,15 @@ function fs() {
 	else
 		local arg=-sh;
 	fi
-	if [[ -n "$@" ]]; then
+	if [[ $# -gt 0 ]]; then
 		du $arg -- "$@";
 	else
-		du $arg .[^.]* ./*;
+		( shopt -s nullglob; set -- .[^.]* ./*; du $arg -- "${@:-.}" );
 	fi;
 }
 
-# Use Git’s colored diff when available
-hash git &>/dev/null;
-if [ $? -eq 0 ]; then
+# Use Git’s colored diff when available (people only; agents need real diff)
+if [ -n "${DOTFILES_HUMAN_SHELL:-}" ] && hash git &>/dev/null; then
 	function diff() {
 		git diff --no-index --color-words "$@";
 	}
@@ -70,7 +54,8 @@ fi;
 
 # Create a data URL from a file
 function dataurl() {
-	local mimeType=$(file -b --mime-type "$1");
+	local mimeType;
+	mimeType=$(file -b --mime-type "$1");
 	if [[ $mimeType == text/* ]]; then
 		mimeType="${mimeType};charset=utf-8";
 	fi
@@ -81,32 +66,30 @@ function dataurl() {
 function server() {
 	local port="${1:-8000}";
 	sleep 1 && open "http://localhost:${port}/" &
-	# Set the default Content-Type to `text/plain` instead of `application/octet-stream`
-	# And serve everything as UTF-8 (although not technically correct, this doesn’t break anything for binary files)
-	python -c $'import SimpleHTTPServer;\nmap = SimpleHTTPServer.SimpleHTTPRequestHandler.extensions_map;\nmap[""] = "text/plain";\nfor key, value in map.items():\n\tmap[key] = value + ";charset=UTF-8";\nSimpleHTTPServer.test();' "$port";
+	python3 -m http.server --bind 127.0.0.1 "$port";
 }
 
 # Start a PHP server from a directory, optionally specifying the port
-# (Requires PHP 5.4.0+.)
 function phpserver() {
 	local port="${1:-4000}";
-	local ip=$(ipconfig getifaddr en1);
-	sleep 1 && open "http://${ip}:${port}/" &
-	php -S "${ip}:${port}";
+	sleep 1 && open "http://localhost:${port}/" &
+	php -S "127.0.0.1:${port}";
 }
 
 # Compare original and gzipped file size
 function gz() {
-	local origsize=$(wc -c < "$1");
-	local gzipsize=$(gzip -c "$1" | wc -c);
-	local ratio=$(echo "$gzipsize * 100 / $origsize" | bc -l);
+	local origsize gzipsize ratio;
+	origsize=$(wc -c < "$1");
+	gzipsize=$(gzip -c "$1" | wc -c);
+	ratio=$(echo "$gzipsize * 100 / $origsize" | bc -l);
 	printf "orig: %d bytes\n" "$origsize";
 	printf "gzip: %d bytes (%2.2f%%)\n" "$gzipsize" "$ratio";
 }
 
-# Run `dig` and display the most useful info
+# Run `dig` and display the most useful records (servers no longer answer
+# `ANY` queries; see RFC 8482)
 function digga() {
-	dig +nocmd "$1" any +multiline +noall +answer;
+	dig +noall +answer +multiline "$1" A "$1" AAAA "$1" CNAME "$1" MX "$1" NS "$1" TXT;
 }
 
 # Show all the names (CNs and SANs) listed in the SSL certificate
@@ -121,11 +104,12 @@ function getcertnames() {
 	echo "Testing ${domain}…";
 	echo ""; # newline
 
-	local tmp=$(echo -e "GET / HTTP/1.0\nEOT" \
+	local tmp certText;
+	tmp=$(echo -e "GET / HTTP/1.0\nEOT" \
 		| openssl s_client -connect "${domain}:443" -servername "${domain}" 2>&1);
 
 	if [[ "${tmp}" = *"-----BEGIN CERTIFICATE-----"* ]]; then
-		local certText=$(echo "${tmp}" \
+		certText=$(echo "${tmp}" \
 			| openssl x509 -text -certopt "no_aux, no_header, no_issuer, no_pubkey, \
 			no_serial, no_sigdump, no_signame, no_validity, no_version");
 		echo "Common Name:";
@@ -143,17 +127,6 @@ function getcertnames() {
 	fi;
 }
 
-# Normalize `open` across Linux, macOS, and Windows.
-# This is needed to make the `o` function (see below) cross-platform.
-if [ ! $(uname -s) = 'Darwin' ]; then
-	if grep -q Microsoft /proc/version; then
-		# Ubuntu on Windows using the Linux subsystem
-		alias open='explorer.exe';
-	else
-		alias open='xdg-open';
-	fi
-fi
-
 # `o` with no arguments opens the current directory, otherwise opens the given
 # location
 function o() {
@@ -169,12 +142,8 @@ function o() {
 # `less` with options to preserve color and line numbers, unless the output is
 # small enough for one screen.
 function tre() {
-	tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX;
+	tree -aC -I '.git|node_modules|.venv' --dirsfirst "$@" | less -FRNX;
 }
-
-
-###
-
 
 # `t` with no arguments opens the current directory in Textmate, otherwise
 # opens the given location
@@ -187,10 +156,26 @@ function t() {
 }
 
 # `gs` is a shorthand for `gh stack` if the GitHub CLI is installed.
-gs() {
+function gs() {
   if ! command -v gh &> /dev/null; then
     echo "gh CLI not found"
     return 1
   fi
   gh stack "$@"
 }
+
+# Secrets for commands without a 1Password shell plugin. For each
+# ~/.config/op-run/<command>.env (untracked; 1Password references only, e.g.
+# `API_TOKEN=op://Private/Some item/credential`), running <command> fetches
+# those secrets for that run only instead of exporting them to every process.
+# People only: an agent shell gets the plain command, so it can't trigger a
+# 1Password prompt you might approve without noticing.
+if [ -n "${DOTFILES_HUMAN_SHELL:-}" ] && command -v op &> /dev/null; then
+  for op_env in "${XDG_CONFIG_HOME:-$HOME/.config}"/op-run/*.env; do
+    [ -f "$op_env" ] || continue
+    op_cmd="$(basename "$op_env" .env)"
+    [[ "$op_cmd" =~ ^[A-Za-z0-9_.-]+$ ]] || continue
+    eval "function ${op_cmd}() { op run --no-masking --env-file=$(printf '%q' "$op_env") -- ${op_cmd} \"\$@\"; }"
+  done
+  unset op_env op_cmd
+fi

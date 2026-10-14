@@ -1,19 +1,17 @@
 #!/usr/bin/env bash
 
-### https://github.com/mathiasbynens/dotfiles/blob/main/.exports
-
-# Make vim the default editor.
-export EDITOR='vim';
+# Make Neovim the default editor, falling back to Vim.
+if command -v nvim > /dev/null; then
+	export EDITOR='nvim';
+else
+	export EDITOR='vim';
+fi;
+export VISUAL="$EDITOR";
 
 # Enable persistent REPL history for `node`.
 export NODE_REPL_HISTORY=~/.node_history;
 # Allow 32³ entries; the default is 1000.
 export NODE_REPL_HISTORY_SIZE='32768';
-# Use sloppy mode by default, matching web browsers.
-export NODE_REPL_MODE='sloppy';
-
-# Make Python use UTF-8 encoding for output to stdin, stdout, and stderr.
-export PYTHONIOENCODING='UTF-8';
 
 # Increase Bash history size. Allow 32³ entries; the default is 500.
 export HISTSIZE='32768';
@@ -21,60 +19,53 @@ export HISTFILESIZE="${HISTSIZE}";
 # Omit duplicates and commands that begin with a space from history.
 export HISTCONTROL='ignoreboth';
 
-# Prefer US English and use UTF-8.
-export LANG='en_US.UTF-8';
-export LC_ALL='en_US.UTF-8';
+# Prefer US English and use UTF-8, falling back to C.UTF-8 where the en_US
+# locale isn't generated (minimal Linux installs warn on every shell otherwise).
+if [[ "$OSTYPE" == darwin* ]] || locale -a 2> /dev/null | grep -qiE '^en_US\.utf-?8$'; then
+	export LANG='en_US.UTF-8' LC_ALL='en_US.UTF-8' LANGUAGE='en_US.UTF-8';
+else
+	export LANG='C.UTF-8' LC_ALL='C.UTF-8' LANGUAGE='C.UTF-8';
+fi;
 
-# Highlight section titles in manual pages.
-export LESS_TERMCAP_md="${yellow}";
+# Show the line/percentage position in `less`.
+export LESS='-M';
 
-# Don’t clear the screen after quitting a manual page.
-export MANPAGER='less -X';
+# Read manual pages in Neovim (Tokyo Night, search, jump to linked pages).
+# Agent shells and machines without Neovim use `less`, which passes text
+# straight through without a terminal (Neovim would wait for input). Set in
+# both cases, because an agent started from your shell inherits it.
+if [ -n "${DOTFILES_HUMAN_SHELL:-}" ] && command -v nvim > /dev/null; then
+	export MANPAGER='nvim +Man!';
+else
+	export MANPAGER='less -X';
+	LESS_TERMCAP_mb=$(printf '\e[01;31m')  # enter blinking mode – red
+	LESS_TERMCAP_md=$(printf '\e[01;35m') # enter double-bright mode – bold, magenta
+	LESS_TERMCAP_me=$(printf '\e[0m')  # turn off all appearance modes (mb, md, so, us)
+	LESS_TERMCAP_se=$(printf '\e[0m')  # leave standout mode
+	LESS_TERMCAP_so=$(printf '\e[01;33m')  # enter standout mode – yellow
+	LESS_TERMCAP_ue=$(printf '\e[0m')  # leave underline mode
+	LESS_TERMCAP_us=$(printf '\e[04;36m')  # enter underline mode – cyan
+	export LESS_TERMCAP_mb LESS_TERMCAP_md LESS_TERMCAP_me LESS_TERMCAP_se LESS_TERMCAP_so LESS_TERMCAP_ue LESS_TERMCAP_us;
+fi;
 
 # Avoid issues with `gpg` as installed via Homebrew.
 # https://stackoverflow.com/a/42265848/96656
-export GPG_TTY=$(tty);
+if GPG_TTY=$(tty 2> /dev/null); then
+	export GPG_TTY;
+else
+	unset GPG_TTY;
+fi;
 
 # Hide the “default interactive shell is now zsh” warning on macOS.
 export BASH_SILENCE_DEPRECATION_WARNING=1;
 
-
-###
-
-# Persisten change directory access to $HOME contents
-# export CDPATH=$HOME
-
-# Prefer US English and use UTF-8
-export LANGUAGE=en_US.UTF-8
-
-# Highlighting inside manpages and elsewhere
-export LESS_TERMCAP_mb=$(printf '\e[01;31m')  # enter blinking mode – red
-export LESS_TERMCAP_md=$(printf '\e[01;35m') # enter double-bright mode – bold, magenta
-export LESS_TERMCAP_me=$(printf '\e[0m')  # turn off all appearance modes (mb, md, so, us)
-export LESS_TERMCAP_se=$(printf '\e[0m')  # leave standout mode
-export LESS_TERMCAP_so=$(printf '\e[01;33m')  # enter standout mode – yellow
-export LESS_TERMCAP_ue=$(printf '\e[0m')  # leave underline mode
-export LESS_TERMCAP_us=$(printf '\e[04;36m')  # enter underline mode – cyan
-
-# Tell homebrew to not autoupdate every single time I run it (just once a week)
-export HOMEBREW_AUTO_UPDATE_SECS=604800
-export HOMEBREW_CASK_OPTS="--appdir=/Applications"
-export HOMEBREW_NO_ANALYTICS=1
-export HOMEBREW_NO_EMOJI=1
-export HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS=1
-
-# Set default editor
-export LESS='-M'
-# export EDITOR="/usr/local/bin/mate -w"
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export VISUAL=vim
-#   export EDITOR="$VISUAL"
-# fi
+# Homebrew: auto-update at most once a week, no analytics or emoji, and don't
+# update before `brew upgrade --cask`.
+export HOMEBREW_AUTO_UPDATE_SECS=604800;
+export HOMEBREW_NO_ANALYTICS=1;
+export HOMEBREW_NO_EMOJI=1;
+export HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS=1;
 
 # Composer PHP package manager
-export COMPOSER_PROCESS_TIMEOUT=2000
-export COMPOSER_MEMORY_LIMIT=-1
+export COMPOSER_PROCESS_TIMEOUT=2000;
+export COMPOSER_MEMORY_LIMIT=-1;
