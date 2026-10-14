@@ -1,17 +1,9 @@
-# Compiled Python files
-*.pyc
-
-# Folder view configuration files
+# Repo-only ignores. The global ignore list lives in config/git/ignore.
 .DS_Store
-Desktop.ini
 
-# Thumbnail cache files
-._*
-Thumbs.db
+# Runtime files written into linked config dirs
+config/tmux/plugins/
+config/vim/.netrwhist
 
-# Files that might appear on external disks
-.Spotlight-V100
-.Trashes
-
-# JetBrains
-.idea
+# Never commit credentials a tool might write next to its config
+config/git/credentials

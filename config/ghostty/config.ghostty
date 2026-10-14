@@ -1,0 +1,23 @@
+# https://ghostty.org/docs/config/reference
+
+# Follows macOS appearance; tmux, herdr and Neovim follow along
+theme = "dark:TokyoNight Storm,light:TokyoNight Day"
+
+font-family = "Fira Code"
+font-size = 12
+font-thicken = true
+font-thicken-strength = 100
+adjust-cell-height = 25%
+bold-is-bright = true
+
+cursor-style = block
+
+mouse-hide-while-typing = true
+
+# Left Option acts as Alt/Meta (shell and Neovim shortcuts such as Alt+b/f,
+# same as the iTerm2 profile); right Option still types special characters.
+macos-option-as-alt = left
+
+# Cmd+C copies Ghostty's own selection; with none, pass it to the app, so
+# herdr can copy its selection (herdr copy_on_select = false).
+keybind = performable:super+c=copy_to_clipboard:mixed

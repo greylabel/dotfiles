@@ -12,7 +12,7 @@
   d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
 
   # `git di $number` shows the diff between the state `$number` revisions ago and the current state
-  di = !"d() { git diff --patch-with-stat HEAD~$1; }; git diff-index --quiet HEAD -- || clear; d"
+  di = !"d() { git diff --patch-with-stat HEAD~\"$1\"; }; git diff-index --quiet HEAD -- || clear; d"
 
   # Pull in remote changes for the current repository and all its submodules
   p = pull --recurse-submodules
@@ -41,22 +41,22 @@
   credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
 
   # Interactive rebase with the given number of latest commits
-  reb = "!r() { git rebase -i HEAD~$1; }; r"
+  reb = "!r() { git rebase -i HEAD~\"$1\"; }; r"
 
   # Remove the old tag with this name and tag the latest commit with it.
-  retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
+  retag = "!r() { git tag -d \"$1\" && git push origin \":refs/tags/$1\" && git tag \"$1\"; }; r"
 
   # Find branches containing commit
-  fb = "!f() { git branch -a --contains $1; }; f"
+  fb = "!f() { git branch -a --contains \"$1\"; }; f"
 
   # Find tags containing commit
-  ft = "!f() { git describe --always --contains $1; }; f"
+  ft = "!f() { git describe --always --contains \"$1\"; }; f"
 
   # Find commits by source code
-  fc = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"
+  fc = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S\"$1\"; }; f"
 
   # Find commits by commit message
-  fm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
+  fm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=\"$1\"; }; f"
 
   # Remove branches that have already been merged with main
   # a.k.a. ‘delete merged’
@@ -69,7 +69,7 @@
   whoami = config user.email
 
   # Shows just my commits.
-  mine = "!f() { git log --no-merges --author=$(git config user.email) $*; }; f"
+  mine = "!f() { git log --no-merges --author=\"$(git config user.email)\" \"$@\"; }; f"
 
 [apply]
 
@@ -90,9 +90,8 @@
 
 [core]
 
-  # Use custom `.gitignore` and `.gitattributes`
-  excludesfile = ~/.gitignore
-  attributesfile = ~/.gitattributes
+  # Global ignore and attributes use the XDG defaults:
+  # ~/.config/git/ignore and ~/.config/git/attributes
 
   # Treat spaces before tabs and all kinds of trailing whitespace as an error
   # [default] trailing-space: looks for spaces at the end of a line
@@ -103,29 +102,15 @@
   # More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
   trustctime = false
 
-  # Prevent showing files whose names contain non-ASCII symbols as unversioned.
-  # http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
-  precomposeunicode = false
-
   # Speed up commands involving untracked files such as `git status`.
   # https://git-scm.com/docs/git-update-index#_untracked_cache
   untrackedCache = true
 
-
   # No line ending output conversion is performed.
   autocrlf = input
 
-  # Use Less for pager.
-  # pager = less -R
-
-  # Use Delta for pager.
-  pager = delta
-
-[color]
-
-	# Use colors in Git commands that are capable of colored output when
-	# outputting to the terminal. (This is the default setting in Git ≥ 1.8.4.)
-	ui = auto
+  # Use Delta for pager when installed (fall back to less elsewhere).
+  pager = "if command -v delta >/dev/null 2>&1; then delta; else less -FRX; fi"
 
 [color "branch"]
 
@@ -177,6 +162,9 @@
   # Detect copies as well as renames
   renames = copies
 
+  # Better hunks for moved and reordered code
+  algorithm = histogram
+
   # Show blocks of moved text of at least 20 alphanumeric characters differently than adds/deletes
   # https://blog.github.com/2018-04-05-git-217-released/
   colorMoved = default
@@ -202,8 +190,8 @@
 
 [help]
 
-  # Automatically correct and execute mistyped commands
-  autocorrect = 1
+  # Suggest a correction for mistyped commands and ask before running it
+  autocorrect = prompt
 
 [include]
 
@@ -216,7 +204,7 @@
 
 [interactive]
 
-  diffFilter = delta --color-only --features=interactive
+  diffFilter = "if command -v delta >/dev/null 2>&1; then delta --color-only --features=interactive; else cat; fi"
 
 [log]
 
@@ -225,7 +213,8 @@
 
 [merge]
 
-  conflictstyle = diff3
+  # Like diff3, but trims lines common to both sides
+  conflictstyle = zdiff3
 
   # Include summaries of merged commits in newly created merge commit messages
   log = true
@@ -235,24 +224,13 @@
 
 [pager]
 
-  color = true
   difftool = true
-
-[protocol]
-
-  # faster git server communication.
-  version = 2
 
 [pull]
 
 	ff = only
-	default = current
 
 [push]
-
-  # https://git-scm.com/docs/git-config#git-config-pushdefault
-  default = simple
-  # default = current
 
   # Make `git push` push relevant annotated tags when pushing branches out.
   followTags = true
@@ -274,19 +252,14 @@
 
   showPatch = true
 
-[status]
-
-  color = auto
-
 # URL shorthands
 
 [url "git@github.com:"]
 
 	insteadOf = "gh:"
 	pushInsteadOf = "github:"
-	pushInsteadOf = "git://github.com/"
 
-[url "git://github.com/"]
+[url "https://github.com/"]
 
 	insteadOf = "github:"
 
@@ -294,14 +267,7 @@
 
 	insteadOf = "gst:"
 	pushInsteadOf = "gist:"
-	pushInsteadOf = "git://gist.github.com/"
 
-[url "git://gist.github.com/"]
+[url "https://gist.github.com/"]
 
 	insteadOf = "gist:"
-
-[gist]
-
-  browse = yes
-  extension = py
-  private = yes
