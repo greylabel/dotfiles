@@ -1,0 +1,32 @@
+# https://herdr.dev/docs/configuration/
+# Defaults: herdr --default-config
+
+onboarding = false
+
+[theme]
+# No Storm variant is built in; tokyo-night is the closest match to Ghostty
+name = "tokyo-night"
+auto_switch = true
+light_name = "tokyo-night-day"
+dark_name = "tokyo-night"
+
+# Shared with tmux: prefix C-a; prefix+h/j/k/l focus panes (herdr default);
+# prefix+H/J/K/L resize; Ctrl+h/j/k/l is left for Neovim splits.
+[keys]
+prefix = "ctrl+a"
+resize_pane_left = "prefix+shift+h"
+resize_pane_down = "prefix+shift+j"
+resize_pane_up = "prefix+shift+k"
+resize_pane_right = "prefix+shift+l"
+split_vertical = "prefix+|"
+split_horizontal = "prefix+-"
+clear_pane = "prefix+ctrl+l"
+new_tab = "prefix+c"
+
+[ui]
+# Keep a mouse selection until it's copied with Ctrl+C (any terminal) or
+# Cmd+C (Ghostty, via the performable: keybind in its config).
+copy_on_select = false
+
+[ui.sound]
+enabled = false
