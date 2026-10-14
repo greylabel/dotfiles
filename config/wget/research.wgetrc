@@ -1,4 +1,7 @@
-### https://github.com/mathiasbynens/dotfiles/blob/main/.wgetrc
+# Opt-in wget profile for white-hat research: site mirroring and recon.
+# Use: rwget <url>  (alias for wget --config ~/.config/wget/research.wgetrc)
+# Plain `wget` keeps its defaults (deliberately not named wgetrc, which wget2
+# would load automatically).
 
 # Use the server-provided last modification date, if available
 timestamping = on
@@ -23,12 +26,6 @@ follow_ftp = on
 
 # Add a `.html` extension to `text/html` or `application/xhtml+xml` files that lack one, or a `.css` extension to `text/css` files that lack one
 adjust_extension = on
-
-# Use UTF-8 as the default system encoding
-# Disabled as it makes `wget` builds that don’t support this feature unusable.
-# Does anyone know how to conditionally configure a wget setting?
-# http://unix.stackexchange.com/q/34730/6040
-#local_encoding = UTF-8
 
 # Ignore `robots.txt` and `<meta name=robots content=nofollow>`
 robots = off

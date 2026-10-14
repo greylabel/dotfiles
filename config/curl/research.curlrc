@@ -1,4 +1,7 @@
-### https://github.com/mathiasbynens/dotfiles/blob/main/.curlrc
+# Opt-in curl profile for white-hat research: browser-like requests.
+# Use: rcurl <url>  (alias for curl -K ~/.config/curl/research.curlrc)
+# Plain `curl` keeps its defaults (deliberately not named .curlrc, which curl
+# would load automatically).
 
 # Disguise as IE 9 on Windows 7.
 user-agent = "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)"
