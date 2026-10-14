@@ -2,10 +2,10 @@
 
 Based on recipes and examples from the below resources, among others:
 
-* [Mathias Bynens](https://github.com/mathiasbynens/dotfiles)
-* [Paul Irish](https://github.com/paulirish/dotfiles)
-* [dotfiles](https://dotfiles.github.io)
-* [Mac OS X Setup Guide](http://sourabhbajaj.com/mac-setup/)
+- [Mathias Bynens](https://github.com/mathiasbynens/dotfiles)
+- [Paul Irish](https://github.com/paulirish/dotfiles)
+- [dotfiles](https://dotfiles.github.io)
+- [Mac OS X Setup Guide](http://sourabhbajaj.com/mac-setup/)
 
 **Warning:** If you want to give these tools a try, you should first fork this repository, review the code, and remove things you don’t want or need. Don’t blindly use these settings unless you know what that entails. Use at your own risk!
 
@@ -17,43 +17,121 @@ The [Mac Development Ansible Playbook](https://github.com/greylabel/mac-dev-play
 
 ## Install from this repo directly
 
-To use these dotfiles directly, clone or download a copy of this repository. The bootstrapper script will pull in the latest version and copy the files to your home folder.
+Clone the repository and run the bootstrapper. It pulls the latest changes and **symlinks** the files into place, so edits in the repo take effect immediately (and `lazy-lock.json` updates land back in the repo). Anything already in the way is moved to `~/.dotfiles-backup/<timestamp>/`.
 
 ```bash
-git clone git@github.com:greylabel/dotfiles.git && cd dotfiles && source bootstrap.sh
+git clone git@github.com:greylabel/dotfiles.git && cd dotfiles && ./bootstrap.sh
 ```
 
-To update, `cd` into your local `dotfiles` repository and then:
+To update (or to pick up newly added files), `cd` into the repository and run `./bootstrap.sh` again. Use `./bootstrap.sh -f` to skip the confirmation prompt.
+
+### Layout
+
+- Root dotfiles (`.bash_profile`, `.aliases`, `.inputrc`, `.editorconfig`, …) are linked into `~`.
+- Each directory in `config/` is linked into `~/.config/`:
+
+| Directory                    | Tool                                                                                                                                                 |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `config/ghostty`             | [Ghostty](https://ghostty.org/docs/config/reference) terminal                                                                                        |
+| `config/herdr`               | [herdr](https://herdr.dev/docs/configuration/) agent workspace (only `config.toml` is linked; herdr keeps runtime files beside it)                   |
+| `config/tmux`                | tmux (≥ 3.1 reads `~/.config/tmux/tmux.conf`; the Tokyo Night colors need ≥ 3.6; older versions keep tmux's defaults)                                |
+| `config/nvim`                | Neovim (lazy.nvim, Mason, treesitter)                                                                                                                |
+| `config/vim`                 | Vim (≥ 9.1 reads `~/.config/vim/vimrc`)                                                                                                              |
+| `config/git`                 | git `config`, global `ignore` and `attributes` (shared settings; `git config --global` writes to an untracked `~/.gitconfig` that bootstrap creates) |
+| `config/curl`, `config/wget` | Opt-in research profiles, used via `rcurl` / `rwget` (plain `curl`/`wget` keep their defaults)                                                       |
+
+To add a tool, add `config/<tool>/`; no bootstrap changes are needed.
+
+Tools that don't read `~/.config` get their own top-level directory, linked by bootstrap where the tool looks: `iterm2/dotfiles.json` becomes an iTerm2 Dynamic Profile (macOS, when iTerm2 is installed).
+
+### Prerequisites
+
+**Required (macOS):**
 
 ```bash
-source bootstrap.sh
+xcode-select --install          # git, make and a C compiler (Neovim builds parsers and plugins)
+brew install bash bash-completion@2 git neovim tmux ripgrep fd tree-sitter-cli git-delta
+brew install --cask font-fira-code font-symbols-only-nerd-font
+brew install --cask ghostty     # and/or iterm2
 ```
 
-To update while avoiding the confirmation prompt:
+- **Node.js** (via nvm) and **Python 3** (via pyenv or Homebrew): Mason installs most Neovim language servers and formatters from npm and PyPI.
+- **herdr**: install from [herdr.dev](https://herdr.dev/), if you use it instead of (or alongside) tmux.
+- **Homebrew bash** as your login shell: see [Bash from Homebrew](#bash-from-homebrew). macOS's bash 3.2 lacks options these files use.
 
-```bash
-set -- -f; source bootstrap.sh
-```
+**Optional, for specific aliases and functions:**
+
+| Install                             | Used by                                                                                                    |
+| ----------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `brew install --cask 1password-cli` | 1Password shell plugins and `~/.config/op-run` wrappers ([Private files and secrets](#private-files-and-secrets)) |
+| `brew install tree wget pigz`       | `tre`, `rwget`, faster `targz`                                                                             |
+| `brew install uv pnpm pyenv`        | Python and JavaScript tooling the shell sets up when present                                               |
+| [TPM](#tmux--tpm)                   | tmux plugins                                                                                               |
+
+**Minimum versions:** Neovim 0.12, Vim 9.1, tmux 3.1 (3.6 for the Tokyo Night colors), git 2.35, bash 4 (macOS's built-in bash 3.2 still works, without `autocd` and `globstar`).
+
+**Linux:** install the same tools with your package manager (`build-essential` or equivalent for `make` and a C compiler; `xdg-utils` for `open`). Distribution packages of Neovim are often older than 0.12; use the [official release](https://github.com/neovim/neovim/releases) instead. Without `git-delta`, git falls back to `less`.
+
+Neovim installs its language servers and formatters through Mason on first start (`:Mason` shows progress).
+
+### Shared keys
+
+Theme is Tokyo Night across Ghostty, iTerm2, herdr, tmux and Neovim: Storm in dark mode, Day in light mode. The terminal follows the macOS appearance, and the others follow the terminal.
+
+| Keys                                  | herdr / tmux                 | Neovim / Vim                                                        |
+| ------------------------------------- | ---------------------------- | ------------------------------------------------------------------- |
+| `C-a`                                 | prefix                       |                                                                     |
+| `prefix` `h/j/k/l`                    | focus pane                   |                                                                     |
+| `prefix` `H/J/K/L`                    | resize pane                  |                                                                     |
+| `prefix` `\|` / `-`                   | split side by side / stacked |                                                                     |
+| `C-h/j/k/l`                           |                              | move between windows                                                |
+| `Space` `w` `q` `v` `s` `e`           |                              | write, quit, vsplit, split, file tree                               |
+| `Space` `f…` `g…` `c…` `x…` `u…` `a…` |                              | find, git, code, diagnostics, toggles, agent (which-key lists them) |
+
+### Terminals
+
+Any combination works: Ghostty or iTerm2, herdr or tmux, Neovim or Vim. Each layer sticks to standard terminal features rather than one terminal's extras:
+
+- **Keys** are plain terminal keys (prefix, `Ctrl`, `Space`), never `Cmd`. Left Option is Alt/Meta in both terminals, so shell and Neovim Alt shortcuts behave the same; right Option types special characters.
+- **Colors** use true colour. Each terminal sets its own `TERM` (`xterm-ghostty`, `xterm-256color`, `tmux-256color`); nothing overrides it.
+- **Light/dark**: the terminal switches its palette with macOS. tmux and Neovim read the terminal's background, and herdr follows macOS itself.
+- **Clipboard** uses OSC 52, so tmux copy mode, herdr and Neovim (also over SSH) reach the macOS clipboard through any terminal that allows it.
+- **Icons** in Neovim need the Nerd Font symbols: built into Ghostty, and set as iTerm2's non-ASCII font by the profile.
+
+|                                       | Ghostty                                     | iTerm2                                                                                  |
+| ------------------------------------- | ------------------------------------------- | --------------------------------------------------------------------------------------- |
+| Config                                | `config/ghostty`                            | `iterm2/dotfiles.json` profile "Dotfiles"; make it the default in Settings → Profiles   |
+| Palette source                        | built-in themes named on the `theme =` line | generated from Ghostty's same themes by `iterm2/generate.py`                            |
+| Light/dark palette                    | `theme = dark:…,light:…`                    | separate light and dark colors in the profile                                           |
+| Clipboard (OSC 52)                    | allowed by default                          | enable Settings → General → Selection → _Applications in terminal may access clipboard_ |
+| Native text selection over tmux/herdr | hold `Shift` while dragging                 | hold `Option` while dragging                                                            |
+| Copy a herdr selection                | `Cmd+C` or `Ctrl+C`                         | `Ctrl+C`                                                                                |
+
+Both terminals' colors come from [iTerm2-Color-Schemes](https://iterm2colorschemes.com/), which Ghostty bundles as its themes. Ghostty's `theme =` line is the one place the theme is chosen: after changing it (or updating Ghostty), run `python3 iterm2/generate.py` to rebuild the iTerm2 profile with the same palettes. Neovim's own colors come from tokyonight.nvim, which draws the same theme with a few small differences in the ANSI colors.
+
+A new terminal fits in the same way: give it Tokyo Night Storm/Day, Fira Code with Nerd Font symbols, left Option as Alt, and OSC 52 clipboard access.
 
 ### tmux + TPM
 
-This repo's tmux config includes the TPM plugin manager bootstrap at the end of `.tmux.conf`.
-
-See the official project: [TPM](https://github.com/tmux-plugins/tpm)
-
-Install it once:
+The tmux config loads the [TPM](https://github.com/tmux-plugins/tpm) plugin manager if it is installed:
 
 ```bash
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
 ```
 
 Then start tmux and press `Ctrl+A` followed by `I` to install the configured plugins.
+
+### Agentic development
+
+- Neovim reloads files changed outside it (for example by an agent in another pane) when it regains focus; tmux sends focus events for this.
+- Review an agent's changes with `Space g d` (diffview) and stage or reset hunks with `Space g s` / `Space g r`.
+- Optional Claude Code bridge: in Neovim press `Space a c`, then run `/ide` in a `claude` session to see its edits as Neovim diffs (`Space a a` accept, `Space a d` reject). Nothing runs until one of the `Space a` keys is used; delete `config/nvim/lua/plugins/agent.lua` to remove it.
 
 ## Extending and overriding
 
 ### Additions to `$PATH`
 
-If `~/.path` exists, it will be sourced along with the other files, before any feature testing (such as [detecting which version of `ls` is being used](https://github.com/greylabel/dotfiles/blob/master/.aliases#L20)) takes place.
+If `~/.path` exists, it will be sourced along with the other files, before any feature testing (such as detecting which version of `ls` is being used in [`.aliases`](.aliases)) takes place.
 
 ### Add custom commands
 
@@ -61,11 +139,33 @@ If `~/.extra` exists, it will be sourced along with the other files. You can use
 
 You could also use `~/.extra` to override settings, functions and aliases from these dotfiles repository. It’s probably better to [fork this repository](https://github.com/greylabel/dotfiles/fork) instead, though.
 
+### Private files and secrets
+
+`~/.extra`, `~/.path` and `~/.gitconfig.local` are never committed, and `bootstrap.sh` sets them to `chmod 600` (readable only by you) each time it runs.
+
+`~/.extra` is sourced into every shell, including the shells AI agents run commands in, so **don't export secret values from it**. Keep secrets in 1Password, and let each command fetch them only when it runs:
+
+* **Tools with a [1Password shell plugin](https://developer.1password.com/docs/cli/shell-plugins/)** (`gh`, `aws`, `terraform`, …): set them up with `op plugin init <tool>`. 1Password writes `~/.config/op/plugins.sh`, which `.bash_profile` loads.
+* **Any other tool:** create `~/.config/op-run/<command>.env` containing [secret references](https://developer.1password.com/docs/cli/secret-references/), one `VARIABLE=op://vault/item/field` per line. `.functions` then wraps `<command>` so each run gets those variables from 1Password for that run only. To get a reference, right-click a field in 1Password and choose **Copy Secret Reference**. These files hold references, not secrets, and live outside the repo.
+
+Both load only in human shells, never in agent shells.
+
+### Human and agent shells
+
+Shells that AI agents run commands in get plain, predictable commands. `.bash_profile` treats a shell as an agent's when it isn't interactive or when `CLAUDECODE` (Claude Code), `AI_AGENT`, `CODEX_SANDBOX` (Codex) or `GEMINI_CLI` is set. For any other agent, set `DOTFILES_AGENT=1` in its environment. Agent shells don't get:
+
+- the `rm -i`, `cp -v`, `mv -v`, `mkdir -p`, `df -h` and `du -h` aliases, or `diff` running `git diff`
+- `man` in Neovim (agents get `less`, which doesn't wait for a terminal)
+- the `nocaseglob`, `cdspell`, `autocd` and `globstar` shell options
+- 1Password shell plugins and `~/.config/op-run` wrappers
+
+Agent sessions keep the shell environment they started with, so restart them after changing these files.
+
 ## Additional and notable configuration
 
 ### Git
 
-Create a `~/.gitconfig.local` file for username / github token / etc.
+Create a `~/.gitconfig.local` file (included from `~/.config/git/config`) for your name, email and signing key. Keep tokens out of it; the GitHub CLI authenticates through 1Password.
 
 ```bash
 [user]
@@ -136,8 +236,8 @@ ssh-add --apple-use-keychain ~/.ssh/id_ed25519
 
 See:
 
-* <https://man7.org/linux/man-pages/man1/ssh-keygen.1.html#ALLOWED_SIGNERS>
-* <https://docs.gitlab.com/ee/user/project/repository/ssh_signed_commits/>
+- <https://man7.org/linux/man-pages/man1/ssh-keygen.1.html#ALLOWED_SIGNERS>
+- <https://docs.gitlab.com/ee/user/project/repository/ssh_signed_commits/>
 
 Create and set permissions on the `allowed_signers` file.
 
@@ -152,6 +252,14 @@ Add an entry with a public key.
 ```
 
 At this point, the new key can be added to GitHub and other cloud services.
+
+#### Ghostty terminfo on remote hosts
+
+Ghostty sets `TERM=xterm-ghostty`. If a server you SSH into reports an unknown terminal, copy the terminfo entry to it once:
+
+```bash
+infocmp -x xterm-ghostty | ssh <host> -- tic -x -
+```
 
 #### Add a passphrase to an existing SSH key
 
