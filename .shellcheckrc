@@ -1,0 +1,2 @@
+# Dotfiles source files from $HOME that shellcheck can't follow.
+disable=SC1090,SC1091
