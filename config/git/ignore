@@ -16,7 +16,8 @@ Thumbs.db
 # JetBrains
 .idea
 
+# Agents
 **/.claude/settings.local.json
 
-# Linked worktrees (hwt, herdr)
+# Linked worktrees
 .worktrees/
