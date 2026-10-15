@@ -55,7 +55,7 @@ brew install --cask font-fira-code font-symbols-only-nerd-font
 brew install --cask ghostty     # and/or iterm2
 ```
 
-- **Node.js** (via nvm) and **Python 3** (via pyenv or Homebrew): Mason installs most Neovim language servers and formatters from npm and PyPI.
+- **Node.js** and **Python 3**, for Neovim's language servers and formatters: see [Neovim tools](#neovim-tools).
 - **herdr**: install from [herdr.dev](https://herdr.dev/), if you use it instead of (or alongside) tmux.
 - **Homebrew bash** as your login shell: see [Bash from Homebrew](#bash-from-homebrew). macOS's bash 3.2 lacks options these files use.
 
@@ -72,7 +72,31 @@ brew install --cask ghostty     # and/or iterm2
 
 **Linux:** install the same tools with your package manager (`build-essential` or equivalent for `make` and a C compiler; `xdg-utils` for `open`). Distribution packages of Neovim are often older than 0.12; use the [official release](https://github.com/neovim/neovim/releases) instead. Without `git-delta`, git falls back to `less`.
 
-Neovim installs its language servers and formatters through Mason on first start (`:Mason` shows progress).
+### Neovim tools
+
+On first start, lazy.nvim installs plugins and Mason installs language servers and formatters (`:Lazy` and `:Mason` show progress). They need these on `PATH`:
+
+| Needs                          | For                                                                             |
+| ------------------------------ | ------------------------------------------------------------------------------- |
+| `git`                          | lazy.nvim (plugins)                                                             |
+| `make`, C compiler             | telescope-fzf-native                                                            |
+| `tree-sitter` CLI, C compiler  | nvim-treesitter (parsers)                                                       |
+| `node`, `npm`                  | Mason: vtsls, eslint, jsonls, yamlls, bashls, dockerls, prettierd               |
+| `python3` with `venv`, `pip`   | Mason: basedpyright, sqlfluff                                                   |
+| `curl`, `unzip`, `tar`, `gzip` | Mason: lua_ls, ruff, taplo, stylua, shfmt (prebuilt binaries; built into macOS) |
+| `rg`, `fd`                     | Telescope search                                                                |
+
+Node via [nvm](https://github.com/nvm-sh/nvm):
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/HEAD/install.sh | PROFILE=/dev/null bash  # .bash_profile already loads nvm
+nvm install --lts
+nvm alias default 'lts/*'
+```
+
+`.bash_profile` puts nvm's **default** version on `PATH`, so Neovim needs `nvm alias default` set and must start from a login shell. Python 3 comes from pyenv (`pyenv install 3.12 && pyenv global 3.12`) or `brew install python`.
+
+Check with `:checkhealth lazy mason`. Mason also checks languages this config doesn't use; warnings for luarocks, Java, Julia, Ruby, Go, cargo, PHP and Composer are safe to ignore.
 
 ### Shared keys
 
