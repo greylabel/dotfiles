@@ -98,6 +98,21 @@ nvm alias default 'lts/*'
 
 Check with `:checkhealth lazy mason`. Mason also checks languages this config doesn't use; warnings for luarocks, Java, Julia, Ruby, Go, cargo, PHP and Composer are safe to ignore.
 
+### Installers that edit shell files
+
+`~/.bashrc` and `~/.bash_profile` are links into this repo, so an installer that appends to them edits the repo. `.bash_profile` already sets up nvm, pnpm, pyenv and `~/.local/bin`, so skip those edits:
+
+| Tool   | Install without editing shell files                                       |
+| ------ | ------------------------------------------------------------------------- |
+| nvm    | `… install.sh \| PROFILE=/dev/null bash`                                  |
+| pnpm   | `brew install pnpm`; don't run `pnpm setup`                               |
+| uv     | `brew install uv`, or `UV_NO_MODIFY_PATH=1` with the script installer     |
+| rustup | `rustup-init --no-modify-path`                                            |
+
+Homebrew never edits shell files. For an installer with no opt-out, check `git diff`, move anything you need into `~/.extra` (untracked) and `git checkout` the file.
+
+Install pnpm with Homebrew rather than Corepack: nvm keeps global packages per Node version, so Corepack's pnpm disappears on each Node upgrade, and Node 25+ no longer bundles Corepack. Projects still pin their pnpm version with `packageManager` in `package.json`.
+
 ### Shared keys
 
 Theme is Tokyo Night across Ghostty, iTerm2, herdr, tmux and Neovim: Storm in dark mode, Day in light mode. The terminal follows the macOS appearance, and the others follow the terminal.
