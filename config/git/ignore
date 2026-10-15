@@ -17,3 +17,6 @@ Thumbs.db
 .idea
 
 **/.claude/settings.local.json
+
+# Linked worktrees (hwt, herdr)
+.worktrees/
