@@ -1,7 +1,19 @@
-PATH="/opt/homebrew/bin:$PATH"
-PATH="/opt/homebrew/sbin:$PATH"
-PATH="/usr/local/bin:$PATH"
-PATH="/usr/local/sbin:$PATH"
+# Moves a directory to the front of PATH, adding it if missing. Login shells
+# started from another shell (tmux panes) re-run this file with PATH already
+# set, so a plain prepend would stack duplicates.
+path_prepend() {
+	PATH=":$PATH:"
+	while [[ "$PATH" == *":$1:"* ]]; do
+		PATH="${PATH//":$1:"/:}"
+	done
+	PATH="${PATH#:}"
+	PATH="$1:${PATH%:}"
+}
+
+path_prepend "/opt/homebrew/bin"
+path_prepend "/opt/homebrew/sbin"
+path_prepend "/usr/local/bin"
+path_prepend "/usr/local/sbin"
 
 # Homebrew prefix, computed once (each `brew --prefix` call costs ~40-80ms)
 HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-$(brew --prefix 2> /dev/null)}"
@@ -30,7 +42,7 @@ export PATH
 # is only needed for `pyenv shell`; uv also reads .python-version files.
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-[ -d "$PYENV_ROOT/shims" ] && PATH="$PYENV_ROOT/shims:$PATH"
+[ -d "$PYENV_ROOT/shims" ] && path_prepend "$PYENV_ROOT/shims"
 
 # Ruby version management, only when rbenv manages a Ruby (~0.13s otherwise)
 if command -v rbenv >/dev/null && compgen -G "$HOME/.rbenv/versions/*" >/dev/null; then
@@ -44,7 +56,7 @@ if [ -s "$NVM_DIR/nvm.sh" ]; then
 	nvm_default="$(cat "$NVM_DIR/alias/default" 2>/dev/null)"
 	nvm_default_bin="$(printf '%s\n' "$NVM_DIR/versions/node/v${nvm_default#v}"*/bin | sort -V | tail -1)"
 	if [ -n "$nvm_default" ] && [ -d "$nvm_default_bin" ]; then
-		PATH="$nvm_default_bin:$PATH"
+		path_prepend "$nvm_default_bin"
 		nvm() {
 			unset -f nvm
 			\. "$NVM_DIR/nvm.sh"
@@ -57,6 +69,7 @@ if [ -s "$NVM_DIR/nvm.sh" ]; then
 	fi
 	unset nvm_default nvm_default_bin
 fi
+unset -f path_prepend
 export PATH
 
 # iTerm2 shell integration, only inside iTerm2 (its escape codes otherwise
