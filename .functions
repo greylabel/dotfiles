@@ -115,7 +115,7 @@ function getcertnames() {
   if [[ "${tmp}" = *"-----BEGIN CERTIFICATE-----"* ]]; then
     certText=$(echo "${tmp}" |
       openssl x509 -text -certopt "no_aux, no_header, no_issuer, no_pubkey, \
-			no_serial, no_sigdump, no_signame, no_validity, no_version")
+        no_serial, no_sigdump, no_signame, no_validity, no_version")
     echo "Common Name:"
     echo "" # newline
     echo "${certText}" | grep "Subject:" | sed -e "s/^.*CN=//" | sed -e "s/\/emailAddress=.*//"
