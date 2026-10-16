@@ -17,7 +17,6 @@ return {
       { "<leader>ff", builtin("find_files"), desc = "Files" },
       { "<leader>fg", builtin("live_grep"), desc = "Grep" },
       { "<leader>fw", builtin("grep_string"), desc = "Word under cursor" },
-      { "<leader>fb", builtin("buffers"), desc = "Buffers" },
       { "<leader>fr", builtin("oldfiles"), desc = "Recent files" },
       { "<leader>fh", builtin("help_tags"), desc = "Help" },
       { "<leader>fk", builtin("keymaps"), desc = "Keymaps" },
@@ -30,6 +29,19 @@ return {
         defaults = {
           -- Lua patterns: escape the dot so .github/.gitignore still show
           file_ignore_patterns = { "%.git/", "node_modules/" },
+          -- Telescope's defaults plus hidden files, like find_files; .git/
+          -- itself isn't gitignored, so exclude it here
+          vimgrep_arguments = {
+            "rg",
+            "--color=never",
+            "--no-heading",
+            "--with-filename",
+            "--line-number",
+            "--column",
+            "--smart-case",
+            "--hidden",
+            "--glob=!**/.git/*",
+          },
         },
         pickers = {
           find_files = { hidden = true },

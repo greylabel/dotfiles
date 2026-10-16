@@ -24,6 +24,5 @@ vim.opt.mouse = "a"
 
 vim.opt.confirm = true
 vim.opt.inccommand = "split"
-vim.opt.laststatus = 3
 vim.opt.list = true
 vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }

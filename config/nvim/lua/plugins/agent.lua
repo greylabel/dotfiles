@@ -16,7 +16,7 @@ return {
       { "<leader>aq", "<cmd>ClaudeCodeStop<cr>", desc = "Stop Claude bridge" },
       { "<leader>ai", "<cmd>ClaudeCodeStatus<cr>", desc = "Claude bridge status" },
       { "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add buffer to Claude" },
-      { "<leader>as", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send selection to Claude" },
+      { "<leader>as", "<cmd>ClaudeCodeSend<cr>", mode = "x", desc = "Send selection to Claude" },
       { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept Claude diff" },
       { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Reject Claude diff" },
     },

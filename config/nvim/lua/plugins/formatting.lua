@@ -42,6 +42,9 @@ return {
         sql = { "sqlfluff" },
       },
       formatters = {
+        -- Only in projects with a prettier config; otherwise LSP or nothing
+        prettierd = { require_cwd = true },
+        prettier = { require_cwd = true },
         -- sqlfluff needs a dialect, so only run in projects that configure it
         sqlfluff = {
           condition = function(_, ctx)
