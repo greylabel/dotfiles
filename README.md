@@ -89,7 +89,7 @@ brew install --cask ghostty     # Or iterm2, or both.
 
 Also install these items:
 
-- **Node.js and Python 3.14.** Neovim uses them for language servers and formatters, and `iterm2/generate.py` uses Python. See [Neovim tools](#neovim-tools).
+- **Node.js and Python 3.15.** Neovim uses them for language servers and formatters, and `iterm2/generate.py` uses Python. See [Neovim tools](#neovim-tools).
 - **[herdr](https://herdr.dev/),** if you use it in place of tmux or together with tmux. Install it with Homebrew: `brew install herdr`.
 - **Homebrew bash as your login shell.** See [Bash from Homebrew](#bash-from-homebrew). The bash 3.2 that macOS supplies does not have some options that these files use.
 
@@ -108,7 +108,7 @@ The minimum versions are:
 - Vim 9.1
 - tmux 3.1. The Tokyo Night colors need tmux 3.6.
 - Git 2.37
-- Python 3.14. `ruff.toml` uses this version as its target.
+- Python 3.15. `ruff.toml` uses this version as its target.
 - bash 4. The bash 3.2 from macOS also works, but without the `autocd` and `globstar` options.
 
 On Linux, install the same tools with your package manager. For `make` and a C compiler, install `build-essential` or an equivalent package. For the `open` command, install `xdg-utils`. Linux distributions often supply a Neovim version that is older than 0.12. Use the [official Neovim release](https://github.com/neovim/neovim/releases) in its place. If `git-delta` is not installed, Git uses `less` to show its output.
@@ -149,10 +149,10 @@ To install Node.js with [nvm](https://github.com/nvm-sh/nvm):
 
 > **NOTE:** `.bash_profile` adds only the default nvm version to `PATH`. Neovim finds Node.js only if you set a default version and start Neovim from a login shell.
 
-To install Python 3.14, use one of these methods:
+To install Python 3.15, use one of these methods:
 
-- With pyenv: run `pyenv install 3.14`, then run `pyenv global 3.14`.
-- With Homebrew: run `brew install python@3.14`. Do not use `brew install python`, because it installs the newest Python version.
+- With pyenv: run `pyenv install 3.15`, then run `pyenv global 3.15`.
+- With Homebrew: run `brew install python`.
 
 To check the setup, run `:checkhealth lazy mason` in Neovim. Mason also checks languages that this configuration does not use. You can ignore the warnings for luarocks, Java, Julia, Ruby, Go, cargo, PHP and Composer.
 
