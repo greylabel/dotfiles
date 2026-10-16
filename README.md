@@ -200,6 +200,25 @@ Shells that AI agents run commands in get plain, predictable commands. `.bash_pr
 
 Agent sessions keep the shell environment they started with, so restart them after changing these files.
 
+### Formatting and checks
+
+Files are indented with spaces (2, or 4 for Python), per `.editorconfig`; only Makefiles and Go use tabs. Neovim formats on save, and CI checks the same formatting with the same tool versions:
+
+| Files                                                                                   | Formatter / linter                     | CI workflow      |
+| --------------------------------------------------------------------------------------- | -------------------------------------- | ---------------- |
+| `config/nvim/**/*.lua`                                                                  | StyLua (`config/nvim/.stylua.toml`)    | `stylua.yml`     |
+| `bootstrap.sh`, `.bash_profile`, `.bashrc`, `.bash_prompt`, `.aliases`, `.exports`, `.functions` | shfmt (indent from `.editorconfig`)    | `shfmt.yml`      |
+| the same shell files                                                                    | ShellCheck (`.shellcheckrc`)           | `shellcheck.yml` |
+
+**Keep CI's versions in step with Mason's.** Mason installs the newest StyLua and shfmt once and only updates them when you do (`:Mason`, then `U`). After updating either, pin the same version in its workflow: `version` in `stylua.yml`, or both `SHFMT_VERSION` and `SHFMT_SHA256` in `shfmt.yml`. Check Mason's versions with `~/.local/share/nvim/mason/bin/stylua --version` and `…/shfmt --version`, and get shfmt's checksum with:
+
+```bash
+v=v3.14.1  # the new version
+curl -fsSL "https://github.com/mvdan/sh/releases/download/$v/shfmt_${v}_linux_amd64" | shasum -a 256
+```
+
+`.macos` isn't checked by CI.
+
 ## Additional and notable configuration
 
 ### Git
