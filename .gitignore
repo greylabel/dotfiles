@@ -7,3 +7,6 @@ config/vim/.netrwhist
 
 # Never commit credentials a tool might write next to its config
 config/git/credentials
+
+# Tool caches
+.ruff_cache/
