@@ -27,12 +27,12 @@ jobs:
           persist-credentials: false
       # Same version as Neovim's Ruff (Mason); settings in ruff.toml
       - name: Lint
-        uses: astral-sh/ruff-action@v4
+        uses: astral-sh/ruff-action@v4.1.0  # full version: ruff-action has no v4 tag
         with:
-          version: 0.17.0
+          version: 0.17.1
           args: check
       - name: Check formatting
-        uses: astral-sh/ruff-action@v4
+        uses: astral-sh/ruff-action@v4.1.0  # full version: ruff-action has no v4 tag
         with:
-          version: 0.17.0
+          version: 0.17.1
           args: format --check --diff
