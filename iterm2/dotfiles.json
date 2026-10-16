@@ -6,6 +6,7 @@
       "Normal Font": "FiraCode-Regular 12",
       "Use Non-ASCII Font": true,
       "Non Ascii Font": "SymbolsNFM 12",
+      "Vertical Spacing": 1.25,
       "Option Key Sends": 2,
       "Right Option Key Sends": 0,
       "Unlimited Scrollback": false,

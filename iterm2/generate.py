@@ -36,6 +36,7 @@ PROFILE = {
     "Normal Font": "FiraCode-Regular 12",
     "Use Non-ASCII Font": True,
     "Non Ascii Font": "SymbolsNFM 12",  # Nerd Font icons (font-symbols-only-nerd-font)
+    "Vertical Spacing": 1.25,  # line height, like Ghostty's adjust-cell-height = 25%
     "Option Key Sends": 2,  # left Option: Esc+ (Alt/Meta)
     "Right Option Key Sends": 0,  # right Option: normal (special characters)
     "Unlimited Scrollback": False,
