@@ -37,7 +37,7 @@ To update (or to pick up newly added files), `cd` into the repository and run `.
 | `config/tmux`                | tmux (≥ 3.1 reads `~/.config/tmux/tmux.conf`; the Tokyo Night colors need ≥ 3.6; older versions keep tmux's defaults)                                |
 | `config/nvim`                | Neovim (lazy.nvim, Mason, treesitter)                                                                                                                |
 | `config/vim`                 | Vim (≥ 9.1 reads `~/.config/vim/vimrc`)                                                                                                              |
-| `config/git`                 | git `config`, global `ignore` and `attributes` (shared settings; `git config --global` writes to an untracked `~/.gitconfig` that bootstrap creates) |
+| `config/git`                 | git `config` and global `ignore` (shared settings; `git config --global` writes to an untracked `~/.gitconfig` that bootstrap creates) |
 | `config/curl`, `config/wget` | Opt-in research profiles, used via `rcurl` / `rwget` (plain `curl`/`wget` keep their defaults)                                                       |
 
 To add a tool, add `config/<tool>/`; no bootstrap changes are needed.

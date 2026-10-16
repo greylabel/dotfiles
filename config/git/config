@@ -9,7 +9,7 @@
   s = status -s
 
   # Show the diff between the latest commit and the current state
-  d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
+  d = !"git diff-index --quiet HEAD -- || clear; git diff --patch-with-stat"
 
   # `git di $number` shows the diff between the state `$number` revisions ago and the current state
   di = !"d() { git diff --patch-with-stat HEAD~\"$1\"; }; git diff-index --quiet HEAD -- || clear; d"
@@ -58,9 +58,9 @@
   # Find commits by commit message
   fm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=\"$1\"; }; f"
 
-  # Remove branches that have already been merged with main
-  # a.k.a. ‘delete merged’
-  dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+  # Remove other branches already merged into the current one, keeping
+  # main, master and develop. a.k.a. ‘delete merged’
+  dm = "!git branch --format='%(if)%(HEAD)%(then)%(else)%(refname:short)%(end)' --merged | grep -vxE '(main|master|develop)?' | xargs -n 1 git branch -d"
 
   # List contributors with number of commits
   contributors = shortlog --summary --numbered
@@ -78,20 +78,16 @@
 
 [branch]
 
-  # Rebase will be set to true for all tracking branches.
-  autosetuprebase = always
-
   # Show most recently changed branches first.
   sort = -committerdate
 
 [checkout]
 
-	defaultRemote = origin
+  defaultRemote = origin
 
 [core]
 
-  # Global ignore and attributes use the XDG defaults:
-  # ~/.config/git/ignore and ~/.config/git/attributes
+  # The global ignore file uses the XDG default: ~/.config/git/ignore
 
   # Treat spaces before tabs and all kinds of trailing whitespace as an error
   # [default] trailing-space: looks for spaces at the end of a line
@@ -120,17 +116,17 @@
 
 [color "diff"]
 
-	meta = yellow bold
-	commit = green bold
-	frag = magenta bold
-	old = red bold
-	new = green bold
-	whitespace = red reverse
+  meta = yellow bold
+  commit = green bold
+  frag = magenta bold
+  old = red bold
+  new = green bold
+  whitespace = red reverse
 
-	newMoved = cyan dim
-	oldMoved = blue dim
-	newMovedAlternative = cyan italic
-	oldMovedAlternative = blue italic
+  newMoved = cyan dim
+  oldMoved = blue dim
+  newMovedAlternative = cyan italic
+  oldMovedAlternative = blue italic
 
 [color "status"]
 
@@ -146,11 +142,8 @@
   max-line-length = 700
   # max-line-distance = 0.3 # better word-diff?
   syntax-theme = base16
-  hyperlinks = true # i filed https://github.com/dandavison/delta/issues/362 but in 2022 i can't see brokenness in the issue nor repro weirdness. but i installed latest `less` anyway
-  	                  # oh i found it. it doubles up the sha and adds some `8;;` at the end.
-  					  # to fix.... install latest less (`less -V` should be >= v570). shouldn't need to set DELTA_PAGER.
-  	# line-numbers = true # seems nice until you want to copypaste and they're there…
-  	# navigate = true # eh. not great with short diffs.
+  # Needs less 570 or later (`less -V`); older versions garble the links
+  hyperlinks = true
 
   file-style = bold yellow ul
   file-decoration-style = yellow ol ul
@@ -228,7 +221,7 @@
 
 [pull]
 
-	ff = only
+  ff = only
 
 [push]
 
@@ -256,18 +249,18 @@
 
 [url "git@github.com:"]
 
-	insteadOf = "gh:"
-	pushInsteadOf = "github:"
+  insteadOf = "gh:"
+  pushInsteadOf = "github:"
 
 [url "https://github.com/"]
 
-	insteadOf = "github:"
+  insteadOf = "github:"
 
 [url "git@gist.github.com:"]
 
-	insteadOf = "gst:"
-	pushInsteadOf = "gist:"
+  insteadOf = "gst:"
+  pushInsteadOf = "gist:"
 
 [url "https://gist.github.com/"]
 
-	insteadOf = "gist:"
+  insteadOf = "gist:"
