@@ -68,7 +68,7 @@ brew install --cask ghostty     # and/or iterm2
 | `brew install uv pnpm pyenv`        | Python and JavaScript tooling the shell sets up when present                                               |
 | [TPM](#tmux--tpm)                   | tmux plugins                                                                                               |
 
-**Minimum versions:** Neovim 0.12, Vim 9.1, tmux 3.1 (3.6 for the Tokyo Night colors), git 2.35, bash 4 (macOS's built-in bash 3.2 still works, without `autocd` and `globstar`).
+**Minimum versions:** Neovim 0.12, Vim 9.1, tmux 3.1 (3.6 for the Tokyo Night colors), git 2.37, bash 4 (macOS's built-in bash 3.2 still works, without `autocd` and `globstar`).
 
 **Linux:** install the same tools with your package manager (`build-essential` or equivalent for `make` and a C compiler; `xdg-utils` for `open`). Distribution packages of Neovim are often older than 0.12; use the [official release](https://github.com/neovim/neovim/releases) instead. Without `git-delta`, git falls back to `less`.
 
@@ -357,7 +357,7 @@ BREW_PREFIX=$(brew --prefix)
 
 ```bash
 # Switch to using brew-installed bash as default shell
-if ! fgrep -q "${BREW_PREFIX}/bin/bash" /etc/shells; then
+if ! grep -qF "${BREW_PREFIX}/bin/bash" /etc/shells; then
   echo "${BREW_PREFIX}/bin/bash" | sudo tee -a /etc/shells;
   chsh -s "${BREW_PREFIX}/bin/bash";
 fi;

@@ -13,6 +13,7 @@ function _prompt_git() {
 function prompt_git() {
 	local s='';
 	local branchName='';
+	local repoUrl='';
 
 	# Check if the current directory is in a Git repository.
 	_prompt_git rev-parse --is-inside-work-tree &>/dev/null || return;

@@ -96,7 +96,7 @@ alias sd='pushd - && pushd'
 alias home="cd ~/"
 alias dr="df -P -kHl" # Diskspace report
 alias h="history"
-alias hosts='sudo $EDITOR /etc/hosts'
+alias hosts='sudoedit /etc/hosts'
 alias ungz="gunzip -k" # Keep input files
 
 # Research profiles for curl and wget (see config/curl and config/wget)

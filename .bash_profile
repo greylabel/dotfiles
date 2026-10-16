@@ -41,7 +41,7 @@ export PATH
 # Python version management: pyenv shims only. The full `pyenv init` (~0.3s)
 # is only needed for `pyenv shell`; uv also reads .python-version files.
 export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+command -v pyenv >/dev/null || export PATH="$PATH:$PYENV_ROOT/bin"
 [ -d "$PYENV_ROOT/shims" ] && path_prepend "$PYENV_ROOT/shims"
 
 # Ruby version management, only when rbenv manages a Ruby (~0.13s otherwise)
