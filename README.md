@@ -81,17 +81,32 @@ Install Homebrew first. See [Homebrew](#homebrew).
 Install these tools on macOS:
 
 ```bash
-xcode-select --install          # Git, make and a C compiler. Neovim uses them to build parsers and plugins.
-brew install bash bash-completion@2 git neovim tmux ripgrep fd tree-sitter-cli git-delta
+# Git, make and a C compiler. Neovim uses them to build parsers and plugins.
+xcode-select --install
+
+# Shell, Git and search tools
+brew install bash bash-completion@2 git git-delta ripgrep fd
+
+# Editors. Neovim needs tree-sitter-cli to build parsers.
+brew install neovim tree-sitter-cli
+
+# Python 3.15, for Neovim tools and iterm2/generate.py (or use pyenv)
+brew install python
+
+# Multiplexers: tmux, herdr, or both
+brew install tmux herdr
+
+# Terminals: Ghostty, iTerm2, or both
+brew install --cask ghostty iterm2
+
+# Fonts
 brew install --cask font-fira-code font-symbols-only-nerd-font
-brew install --cask ghostty     # Or iterm2, or both.
 ```
 
-Also install these items:
+Also do these steps:
 
-- **Node.js and Python 3.15.** Neovim uses them for language servers and formatters, and `iterm2/generate.py` uses Python. See [Neovim tools](#neovim-tools).
-- **[herdr](https://herdr.dev/),** if you use it in place of tmux or together with tmux. Install it with Homebrew: `brew install herdr`.
-- **Homebrew bash as your login shell.** See [Bash from Homebrew](#bash-from-homebrew). The bash 3.2 that macOS supplies does not have some options that these files use.
+- **Install Node.js with nvm.** Neovim uses Node.js for language servers and formatters. See [Neovim tools](#neovim-tools).
+- **Make Homebrew bash your login shell.** See [Bash from Homebrew](#bash-from-homebrew). The bash 3.2 that macOS supplies does not have some options that these files use.
 
 These tools are optional. Some aliases and functions need them:
 
