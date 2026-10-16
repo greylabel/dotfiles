@@ -11,6 +11,8 @@ adjust-cell-height = 25%
 bold-is-bright = true
 
 cursor-style = block
+# Solid, as in the iTerm2 profile
+cursor-style-blink = false
 
 mouse-hide-while-typing = true
 
