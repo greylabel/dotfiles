@@ -4,137 +4,141 @@
 # on macOS. A function rather than an alias, defined first, so the functions
 # below pick it up.
 if [[ "$OSTYPE" != darwin* ]]; then
-	function open() { xdg-open "$@"; }
+  function open() { xdg-open "$@"; }
 fi
 
 # Create a new directory and enter it
 function mkd() {
-	mkdir -p "$@" && cd "$_" || return;
+  mkdir -p "$@" && cd "$_" || return
 }
 
 # Change working directory to the top-most Finder window location (macOS)
 if [[ "$OSTYPE" == darwin* ]]; then
-	function cdf() { # short for `cdfinder`
-		cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')" || return;
-	}
-fi;
+  function cdf() { # short for `cdfinder`
+    cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')" || return
+  }
+fi
 
 # Create a .tar.gz archive, using `pigz` (parallel gzip) when available
 function targz() {
-	local archive="${1%/}.tar.gz" compressor=gzip;
-	command -v pigz > /dev/null && compressor=pigz;
-	tar -cf - --exclude=".DS_Store" "$@" | "$compressor" -9 > "$archive";
-	if [ "${PIPESTATUS[0]}" -ne 0 ] || [ "${PIPESTATUS[1]}" -ne 0 ]; then
-		rm -f "$archive";
-		return 1;
-	fi;
-	echo "${archive} ($(du -h "$archive" | cut -f1)) created using ${compressor}.";
+  local archive="${1%/}.tar.gz" compressor=gzip
+  command -v pigz >/dev/null && compressor=pigz
+  tar -cf - --exclude=".DS_Store" "$@" | "$compressor" -9 >"$archive"
+  if [ "${PIPESTATUS[0]}" -ne 0 ] || [ "${PIPESTATUS[1]}" -ne 0 ]; then
+    rm -f "$archive"
+    return 1
+  fi
+  echo "${archive} ($(du -h "$archive" | cut -f1)) created using ${compressor}."
 }
 
 # Determine size of a file or total size of a directory
 function fs() {
-	if du -b /dev/null > /dev/null 2>&1; then
-		local arg=-sbh;
-	else
-		local arg=-sh;
-	fi
-	if [[ $# -gt 0 ]]; then
-		du $arg -- "$@";
-	else
-		( shopt -s nullglob; set -- .[^.]* ./*; du $arg -- "${@:-.}" );
-	fi;
+  if du -b /dev/null >/dev/null 2>&1; then
+    local arg=-sbh
+  else
+    local arg=-sh
+  fi
+  if [[ $# -gt 0 ]]; then
+    du $arg -- "$@"
+  else
+    (
+      shopt -s nullglob
+      set -- .[^.]* ./*
+      du $arg -- "${@:-.}"
+    )
+  fi
 }
 
 # Use Git’s colored diff when available (people only; agents need real diff)
 if [ -n "${DOTFILES_HUMAN_SHELL:-}" ] && hash git &>/dev/null; then
-	function diff() {
-		git diff --no-index --color-words "$@";
-	}
-fi;
+  function diff() {
+    git diff --no-index --color-words "$@"
+  }
+fi
 
 # Create a data URL from a file
 function dataurl() {
-	local mimeType;
-	mimeType=$(file -b --mime-type "$1");
-	if [[ $mimeType == text/* ]]; then
-		mimeType="${mimeType};charset=utf-8";
-	fi
-	echo "data:${mimeType};base64,$(openssl base64 -in "$1" | tr -d '\n')";
+  local mimeType
+  mimeType=$(file -b --mime-type "$1")
+  if [[ $mimeType == text/* ]]; then
+    mimeType="${mimeType};charset=utf-8"
+  fi
+  echo "data:${mimeType};base64,$(openssl base64 -in "$1" | tr -d '\n')"
 }
 
 # Start an HTTP server from a directory, optionally specifying the port
 function server() {
-	local port="${1:-8000}";
-	sleep 1 && open "http://localhost:${port}/" &
-	python3 -m http.server --bind 127.0.0.1 "$port";
+  local port="${1:-8000}"
+  sleep 1 && open "http://localhost:${port}/" &
+  python3 -m http.server --bind 127.0.0.1 "$port"
 }
 
 # Start a PHP server from a directory, optionally specifying the port
 function phpserver() {
-	local port="${1:-4000}";
-	sleep 1 && open "http://localhost:${port}/" &
-	php -S "127.0.0.1:${port}";
+  local port="${1:-4000}"
+  sleep 1 && open "http://localhost:${port}/" &
+  php -S "127.0.0.1:${port}"
 }
 
 # Compare original and gzipped file size
 function gz() {
-	local origsize gzipsize ratio;
-	origsize=$(wc -c < "$1");
-	gzipsize=$(gzip -c "$1" | wc -c);
-	ratio=$(echo "$gzipsize * 100 / $origsize" | bc -l);
-	printf "orig: %d bytes\n" "$origsize";
-	printf "gzip: %d bytes (%2.2f%%)\n" "$gzipsize" "$ratio";
+  local origsize gzipsize ratio
+  origsize=$(wc -c <"$1")
+  gzipsize=$(gzip -c "$1" | wc -c)
+  ratio=$(echo "$gzipsize * 100 / $origsize" | bc -l)
+  printf "orig: %d bytes\n" "$origsize"
+  printf "gzip: %d bytes (%2.2f%%)\n" "$gzipsize" "$ratio"
 }
 
 # Run `dig` and display the most useful records (servers no longer answer
 # `ANY` queries; see RFC 8482)
 function digga() {
-	dig +noall +answer +multiline "$1" A "$1" AAAA "$1" CNAME "$1" MX "$1" NS "$1" TXT;
+  dig +noall +answer +multiline "$1" A "$1" AAAA "$1" CNAME "$1" MX "$1" NS "$1" TXT
 }
 
 # Show all the names (CNs and SANs) listed in the SSL certificate
 # for a given domain
 function getcertnames() {
-	if [ -z "${1}" ]; then
-		echo "ERROR: No domain specified.";
-		return 1;
-	fi;
+  if [ -z "${1}" ]; then
+    echo "ERROR: No domain specified."
+    return 1
+  fi
 
-	local domain="${1}";
-	echo "Testing ${domain}…";
-	echo ""; # newline
+  local domain="${1}"
+  echo "Testing ${domain}…"
+  echo "" # newline
 
-	local tmp certText;
-	tmp=$(echo -e "GET / HTTP/1.0\nEOT" \
-		| openssl s_client -connect "${domain}:443" -servername "${domain}" 2>&1);
+  local tmp certText
+  tmp=$(echo -e "GET / HTTP/1.0\nEOT" |
+    openssl s_client -connect "${domain}:443" -servername "${domain}" 2>&1)
 
-	if [[ "${tmp}" = *"-----BEGIN CERTIFICATE-----"* ]]; then
-		certText=$(echo "${tmp}" \
-			| openssl x509 -text -certopt "no_aux, no_header, no_issuer, no_pubkey, \
-			no_serial, no_sigdump, no_signame, no_validity, no_version");
-		echo "Common Name:";
-		echo ""; # newline
-		echo "${certText}" | grep "Subject:" | sed -e "s/^.*CN=//" | sed -e "s/\/emailAddress=.*//";
-		echo ""; # newline
-		echo "Subject Alternative Name(s):";
-		echo ""; # newline
-		echo "${certText}" | grep -A 1 "Subject Alternative Name:" \
-			| sed -e "2s/DNS://g" -e "s/ //g" | tr "," "\n" | tail -n +2;
-		return 0;
-	else
-		echo "ERROR: Certificate not found.";
-		return 1;
-	fi;
+  if [[ "${tmp}" = *"-----BEGIN CERTIFICATE-----"* ]]; then
+    certText=$(echo "${tmp}" |
+      openssl x509 -text -certopt "no_aux, no_header, no_issuer, no_pubkey, \
+			no_serial, no_sigdump, no_signame, no_validity, no_version")
+    echo "Common Name:"
+    echo "" # newline
+    echo "${certText}" | grep "Subject:" | sed -e "s/^.*CN=//" | sed -e "s/\/emailAddress=.*//"
+    echo "" # newline
+    echo "Subject Alternative Name(s):"
+    echo "" # newline
+    echo "${certText}" | grep -A 1 "Subject Alternative Name:" |
+      sed -e "2s/DNS://g" -e "s/ //g" | tr "," "\n" | tail -n +2
+    return 0
+  else
+    echo "ERROR: Certificate not found."
+    return 1
+  fi
 }
 
 # `o` with no arguments opens the current directory, otherwise opens the given
 # location
 function o() {
-	if [ $# -eq 0 ]; then
-		open .;
-	else
-		open "$@";
-	fi;
+  if [ $# -eq 0 ]; then
+    open .
+  else
+    open "$@"
+  fi
 }
 
 # `tre` is a shorthand for `tree` with hidden files and color enabled, ignoring
@@ -142,12 +146,12 @@ function o() {
 # `less` with options to preserve color and line numbers, unless the output is
 # small enough for one screen.
 function tre() {
-	tree -aC -I '.git|node_modules|.venv' --dirsfirst "$@" | less -FRNX;
+  tree -aC -I '.git|node_modules|.venv' --dirsfirst "$@" | less -FRNX
 }
 
 # `gs` is a shorthand for `gh stack` if the GitHub CLI is installed.
 function gs() {
-  if ! command -v gh &> /dev/null; then
+  if ! command -v gh &>/dev/null; then
     echo "gh CLI not found"
     return 1
   fi
@@ -160,7 +164,7 @@ function gs() {
 # those secrets for that run only instead of exporting them to every process.
 # People only: an agent shell gets the plain command, so it can't trigger a
 # 1Password prompt you might approve without noticing.
-if [ -n "${DOTFILES_HUMAN_SHELL:-}" ] && command -v op &> /dev/null; then
+if [ -n "${DOTFILES_HUMAN_SHELL:-}" ] && command -v op &>/dev/null; then
   for op_env in "${XDG_CONFIG_HOME:-$HOME/.config}"/op-run/*.env; do
     [ -f "$op_env" ] || continue
     op_cmd="$(basename "$op_env" .env)"

@@ -7,100 +7,100 @@
 # -c beats a repository's own config, so a downloaded repo can't use
 # core.fsmonitor (or external diff / textconv drivers) to run code here.
 function _prompt_git() {
-	command git -c core.fsmonitor=false "$@";
+  command git -c core.fsmonitor=false "$@"
 }
 
 function prompt_git() {
-	local s='';
-	local branchName='';
-	local repoUrl='';
+  local s=''
+  local branchName=''
+  local repoUrl=''
 
-	# Check if the current directory is in a Git repository.
-	_prompt_git rev-parse --is-inside-work-tree &>/dev/null || return;
+  # Check if the current directory is in a Git repository.
+  _prompt_git rev-parse --is-inside-work-tree &>/dev/null || return
 
-	# Check for what branch we’re on.
-	# Get the short symbolic ref. If HEAD isn’t a symbolic ref, get a
-	# tracking remote branch or tag. Otherwise, get the
-	# short SHA for the latest commit, or give up.
-	branchName="$(_prompt_git symbolic-ref --quiet --short HEAD 2> /dev/null || \
-		_prompt_git describe --all --exact-match HEAD 2> /dev/null || \
-		_prompt_git rev-parse --short HEAD 2> /dev/null || \
-		echo '(unknown)')";
+  # Check for what branch we’re on.
+  # Get the short symbolic ref. If HEAD isn’t a symbolic ref, get a
+  # tracking remote branch or tag. Otherwise, get the
+  # short SHA for the latest commit, or give up.
+  branchName="$(_prompt_git symbolic-ref --quiet --short HEAD 2>/dev/null ||
+    _prompt_git describe --all --exact-match HEAD 2>/dev/null ||
+    _prompt_git rev-parse --short HEAD 2>/dev/null ||
+    echo '(unknown)')"
 
-	# Early exit for Chromium & Blink repo, as the dirty check takes too long.
-	# Thanks, @paulirish!
-	# https://github.com/paulirish/dotfiles/blob/dd33151f/.bash_prompt#L110-L123
-	repoUrl="$(_prompt_git config --get remote.origin.url)";
-	if grep -q 'chromium/src.git' <<< "${repoUrl}"; then
-		s+='*';
-	else
-		# Check for uncommitted changes in the index.
-		if ! _prompt_git diff --quiet --no-ext-diff --no-textconv --ignore-submodules --cached; then
-			s+='+';
-		fi;
-		# Check for unstaged changes.
-		if ! _prompt_git diff-files --quiet --ignore-submodules --; then
-			s+='!';
-		fi;
-		# Check for untracked files.
-		if [ -n "$(_prompt_git ls-files --others --exclude-standard)" ]; then
-			s+='?';
-		fi;
-		# Check for stashed files.
-		if _prompt_git rev-parse --verify refs/stash >/dev/null 2>&1; then
-			s+='$';
-		fi;
-	fi;
+  # Early exit for Chromium & Blink repo, as the dirty check takes too long.
+  # Thanks, @paulirish!
+  # https://github.com/paulirish/dotfiles/blob/dd33151f/.bash_prompt#L110-L123
+  repoUrl="$(_prompt_git config --get remote.origin.url)"
+  if grep -q 'chromium/src.git' <<<"${repoUrl}"; then
+    s+='*'
+  else
+    # Check for uncommitted changes in the index.
+    if ! _prompt_git diff --quiet --no-ext-diff --no-textconv --ignore-submodules --cached; then
+      s+='+'
+    fi
+    # Check for unstaged changes.
+    if ! _prompt_git diff-files --quiet --ignore-submodules --; then
+      s+='!'
+    fi
+    # Check for untracked files.
+    if [ -n "$(_prompt_git ls-files --others --exclude-standard)" ]; then
+      s+='?'
+    fi
+    # Check for stashed files.
+    if _prompt_git rev-parse --verify refs/stash >/dev/null 2>&1; then
+      s+='$'
+    fi
+  fi
 
-	[ -n "${s}" ] && s=" [${s}]";
+  [ -n "${s}" ] && s=" [${s}]"
 
-	echo -e "${1}${branchName}${2}${s}";
+  echo -e "${1}${branchName}${2}${s}"
 }
 
-if tput setaf 1 &> /dev/null; then
-	bold=$(tput bold);
-	reset=$(tput sgr0);
-	blue=$(tput setaf 4);    # Tokyo Night blue
-	cyan=$(tput setaf 6);    # Tokyo Night cyan
-	green=$(tput setaf 2);   # Tokyo Night green
-	magenta=$(tput setaf 5); # Tokyo Night magenta
-	red=$(tput setaf 1);     # Tokyo Night red
-	yellow=$(tput setaf 3);  # Tokyo Night yellow
+if tput setaf 1 &>/dev/null; then
+  bold=$(tput bold)
+  reset=$(tput sgr0)
+  blue=$(tput setaf 4)    # Tokyo Night blue
+  cyan=$(tput setaf 6)    # Tokyo Night cyan
+  green=$(tput setaf 2)   # Tokyo Night green
+  magenta=$(tput setaf 5) # Tokyo Night magenta
+  red=$(tput setaf 1)     # Tokyo Night red
+  yellow=$(tput setaf 3)  # Tokyo Night yellow
 else
-	bold='';
-	reset="\e[0m";
-	blue="\e[1;34m";
-	cyan="\e[1;36m";
-	green="\e[1;32m";
-	magenta="\e[1;35m";
-	red="\e[1;31m";
-	yellow="\e[1;33m";
-fi;
+  bold=''
+  reset="\e[0m"
+  blue="\e[1;34m"
+  cyan="\e[1;36m"
+  green="\e[1;32m"
+  magenta="\e[1;35m"
+  red="\e[1;31m"
+  yellow="\e[1;33m"
+fi
 
 # Keep the prompt readable in both TokyoNight Storm and TokyoNight Day.
 if [[ "${USER}" == "root" ]]; then
-	userStyle="${red}";
+  userStyle="${red}"
 else
-	userStyle="${blue}";
-fi;
+  userStyle="${blue}"
+fi
 
 if [[ "${SSH_TTY}" ]]; then
-	hostStyle="${magenta}";
+  hostStyle="${magenta}"
 else
-	hostStyle="${cyan}";
-fi;
+  hostStyle="${cyan}"
+fi
 
 # Minimal, readable prompt tuned for Tokyo Night themes.
-PS1="\[${bold}\]\n"; # newline
-PS1+="\[${userStyle}\]\u"; # username
+PS1="\[${bold}\]\n"       # newline
+PS1+="\[${userStyle}\]\u" # username
 if [[ "${SSH_TTY}" ]]; then
-	PS1+="\[${reset}\]@\[${hostStyle}\]\h"; # host only when SSH
-fi;
-PS1+=" \[${green}\]\w"; # working directory full path
-PS1+="\$(prompt_git \" \[${magenta}\]\" \"\[${cyan}\]\")"; # Git repository details
-PS1+="\n";
-PS1+="\[${reset}\]\$ \[${reset}\]"; # `$` (and reset color)
-export PS1;
+  PS1+="\[${reset}\]@\[${hostStyle}\]\h" # host only when SSH
+fi
+PS1+=" \[${green}\]\w"                                    # working directory full path
+PS1+="\$(prompt_git \" \[${magenta}\]\" \"\[${cyan}\]\")" # Git repository details
+PS1+="\n"
+PS1+="\[${reset}\]\$ \[${reset}\]" # `$` (and reset color)
+export PS1
 
-PS2="\[${yellow}\]→ \[${reset}\]";
-export PS2;
+PS2="\[${yellow}\]→ \[${reset}\]"
+export PS2
