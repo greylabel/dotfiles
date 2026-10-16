@@ -1,0 +1,38 @@
+---
+name: Ruff
+
+"on":
+  pull_request:
+  merge_group:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+
+jobs:
+  ruff:
+    name: Ruff
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      # Same version as Neovim's Ruff (Mason); settings in ruff.toml
+      - name: Lint
+        uses: astral-sh/ruff-action@v4
+        with:
+          version: 0.17.0
+          args: check
+      - name: Check formatting
+        uses: astral-sh/ruff-action@v4
+        with:
+          version: 0.17.0
+          args: format --check --diff

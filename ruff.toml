@@ -1,0 +1,4 @@
+# Ruff settings for the Python helpers (iterm2/generate.py).
+# Line length matches StyLua's column_width.
+target-version = "py314"
+line-length = 120

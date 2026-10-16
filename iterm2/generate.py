@@ -58,9 +58,9 @@ KEYS = {
 
 def theme_names():
     text = GHOSTTY_CONFIG.read_text()
-    match = re.search(r"^theme\s*=\s*\"?dark:([^,]+),\s*light:([^\"\n]+)\"?", text, re.M)
+    match = re.search(r"^theme\s*=\s*\"?dark:([^,]+),\s*light:([^\"\n]+)\"?", text, re.MULTILINE)
     if not match:
-        sys.exit(f"{GHOSTTY_CONFIG}: expected a line like theme = \"dark:A,light:B\"")
+        sys.exit(f'{GHOSTTY_CONFIG}: expected a line like theme = "dark:A,light:B"')
     return match.group(1).strip(), match.group(2).strip()
 
 
