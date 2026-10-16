@@ -32,7 +32,6 @@ bootstrap_main() (
 		.functions
 		.hushlogin
 		.inputrc
-		.tm_properties
 	)
 	FILE_LINK_TOOLS=(herdr)
 	# Private, uncommitted files; kept readable by you only.

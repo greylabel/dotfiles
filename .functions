@@ -145,16 +145,6 @@ function tre() {
 	tree -aC -I '.git|node_modules|.venv' --dirsfirst "$@" | less -FRNX;
 }
 
-# `t` with no arguments opens the current directory in Textmate, otherwise
-# opens the given location
-function t() {
-  if [ $# -eq 0 ]; then
-    mate .;
-  else
-    mate "$@";
-  fi;
-}
-
 # `gs` is a shorthand for `gh stack` if the GitHub CLI is installed.
 function gs() {
   if ! command -v gh &> /dev/null; then
