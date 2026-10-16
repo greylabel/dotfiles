@@ -1,4 +1,10 @@
-syntax enable
+set encoding=utf-8
+scriptencoding utf-8
+
+" Vim's recommended defaults, which a vimrc otherwise turns off: syntax,
+" filetype plugins and indent, incsearch, showcmd and more
+unlet! skip_defaults_vim
+source $VIMRUNTIME/defaults.vim
 
 set number
 set relativenumber
@@ -8,11 +14,8 @@ set sidescrolloff=8
 set nowrap
 set splitright
 set splitbelow
-set showcmd
 set showmode
-set showmatch
 set autoindent
-set smartindent
 set expandtab
 set tabstop=2
 set shiftwidth=2
@@ -21,26 +24,41 @@ set ignorecase
 set smartcase
 set clipboard=unnamedplus
 set termguicolors
-set noerrorbells
-set visualbell
+set belloff=all
 set hidden
 set backupcopy=yes
 set updatetime=250
 set timeoutlen=300
+" Match tmux's escape-time, so Esc doesn't wait for a key sequence
+set ttimeoutlen=10
 set mouse=a
 set signcolumn=yes
-" Keep swap, backup and undo files out of project directories
+set confirm
+set list
+set listchars=tab:»\ ,trail:·,nbsp:␣
+" No swap files (as in Neovim); keep backup and undo files out of projects
+set noswapfile
 let s:state = expand('~/.local/state/vim')
-for s:dir in ['swap', 'backup', 'undo']
+for s:dir in ['backup', 'undo']
   call mkdir(s:state . '/' . s:dir, 'p', 0700)
 endfor
-let &directory = s:state . '/swap//'
 let &backupdir = s:state . '/backup//'
 let &undodir = s:state . '/undo//'
 set undofile
 set autoread
 
-filetype plugin indent on
+" Bundled packages: .editorconfig support and yank highlight (built into
+" Neovim)
+packadd! editorconfig
+packadd! hlyank
+
+" Pick up edits made outside Vim, e.g. by an agent in another pane.
+" FocusGained needs focus events from the terminal/multiplexer.
+augroup user_config
+  autocmd!
+  autocmd FocusGained,BufEnter,CursorHold *
+        \ if &buftype !=# 'nofile' && getcmdwintype() ==# '' | checktime | endif
+augroup END
 
 let mapleader = " "
 let maplocalleader = " "
