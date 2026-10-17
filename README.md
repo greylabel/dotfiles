@@ -353,8 +353,6 @@ After you update StyLua, shfmt or Ruff in Mason, do these steps:
    curl -fsSL "https://github.com/mvdan/sh/releases/download/$v/shfmt_${v}_linux_amd64" | shasum -a 256
    ```
 
-CI does not check `.macos`.
-
 ## Additional configuration
 
 ### Git
