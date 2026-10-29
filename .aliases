@@ -114,6 +114,9 @@ alias down="docker compose down"
 # pnpm
 alias pn="pnpm"
 
+# nvim
+alias nv="nvim"
+
 # macOS only
 if [[ "$OSTYPE" == darwin* ]]; then
   # List with ACLs (macOS `ls -e`)
