@@ -214,6 +214,8 @@ herdr and tmux use the same keys. Neovim and Vim also use the same keys:
 | `Space`, then `w`, `q`, `v`, `s` or `e` | | Write, quit, split vertically, split horizontally, or open the file tree. |
 | `Space`, then `f`, `g`, `c`, `x`, `u` or `a` | | Neovim only: groups of keys to find, use Git, work with code, show diagnostics, toggle settings, and connect to an agent. which-key shows all the keys in a group. |
 
+Neovim also closes brackets and quotes as you type, and changes surrounding characters with `ys`, `cs` and `ds` (for example, `cs"'` turns `"word"` into `'word'`). `Space g g` opens a Git status window where you can stage and commit, and `Space g B` shows who last changed each line. Markdown files wrap long lines and show formatted headings, tables and lists; `Space u m` switches between formatted and plain text. `Space u u` shows the undo history as a tree. Reopening a file returns to where you left off.
+
 ### Terminals
 
 You can use any combination of these tools: Ghostty or iTerm2, herdr or tmux, and Neovim or Vim. Each tool uses only standard terminal features, not the special features of one terminal:

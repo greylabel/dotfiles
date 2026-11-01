@@ -10,8 +10,9 @@ return {
     opts = {
       disable_netrw = true,
       renderer = { group_empty = true },
-      -- Show git-ignored files (node_modules, .venv, build output); `I` hides them
-      filters = { git_ignored = false },
+      -- Show git-ignored files (node_modules, .venv, build output); `I` hides
+      -- them. Always hide macOS .DS_Store files (`U` toggles custom filters).
+      filters = { git_ignored = false, custom = { "^\\.DS_Store$" } },
     },
   },
 }

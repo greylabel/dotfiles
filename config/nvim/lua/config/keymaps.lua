@@ -14,12 +14,20 @@ end
 
 map("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlight" })
 
+-- On wrapped lines, j/k move by screen line (a count still moves by real lines)
+map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, desc = "Down (screen line)" })
+map({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, desc = "Up (screen line)" })
+
 -- Diagnostics
 map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line diagnostics" })
 map("n", "<leader>xq", vim.diagnostic.setloclist, { desc = "Diagnostics to loclist" })
 
 -- Toggles
 map("n", "<leader>uw", "<cmd>set wrap!<CR>", { desc = "Toggle wrap" })
+map("n", "<leader>uu", function()
+  vim.cmd.packadd("nvim.undotree") -- built into Neovim 0.12, loaded on first use
+  vim.cmd("Undotree")
+end, { desc = "Undo tree" })
 map("n", "<leader>uh", function()
   vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 end, { desc = "Toggle inlay hints" })

@@ -32,6 +32,15 @@ return {
     },
   },
   {
+    -- Git from inside Neovim: status window to stage and commit, full-file blame
+    "tpope/vim-fugitive",
+    cmd = { "Git", "G", "Gdiffsplit", "Gread", "Gwrite" },
+    keys = {
+      { "<leader>gg", "<cmd>Git<cr>", desc = "Git status (fugitive)" },
+      { "<leader>gB", "<cmd>Git blame<cr>", desc = "Blame file" },
+    },
+  },
+  {
     -- Review a working tree (e.g. an agent's changes) file by file
     "sindrets/diffview.nvim",
     cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewFileHistory" },

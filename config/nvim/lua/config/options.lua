@@ -4,6 +4,9 @@ vim.opt.signcolumn = "yes"
 vim.opt.scrolloff = 8
 vim.opt.sidescrolloff = 8
 vim.opt.wrap = false
+-- When wrap is on (Space uw, or prose files): break at words, keep indent
+vim.opt.linebreak = true
+vim.opt.breakindent = true
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 -- Explicit: true-colour detection varies by terminal and inside tmux
