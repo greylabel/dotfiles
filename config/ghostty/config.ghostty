@@ -10,6 +10,10 @@ font-thicken-strength = 100
 adjust-cell-height = 25%
 bold-is-bright = true
 
+# Match iTerm2's 100,000-line scrollback limit.
+scrollback-limit-bytes = unlimited
+scrollback-limit-lines = 100000
+
 cursor-style = block
 # Solid, as in the iTerm2 profile
 cursor-style-blink = false
