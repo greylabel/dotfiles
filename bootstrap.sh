@@ -33,7 +33,7 @@ bootstrap_main() (
     .hushlogin
     .inputrc
   )
-  FILE_LINK_TOOLS=(herdr)
+  FILE_LINK_TOOLS=(herdr ghosthub)
   # Private, uncommitted files; kept readable by you only.
   PRIVATE_FILES=(.extra .path .gitconfig.local)
   RETIRED_HOME_FILES=(.vimrc .gvimrc .tmux.conf .curlrc .wgetrc)

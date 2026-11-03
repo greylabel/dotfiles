@@ -63,6 +63,7 @@ The script links each directory in `config/` into `~/.config/`:
 | Directory | Tool | Notes |
 | --- | --- | --- |
 | `config/ghostty` | [Ghostty](https://ghostty.org/docs/config/reference) terminal | |
+| `config/ghosthub` | [Ghosthub](https://ghosthub.ai/docs/) session browser for tmux and herdr | The script links only `ghostty.conf`, because Ghosthub keeps runtime files in the same directory. The file includes the Ghostty configuration. |
 | `config/herdr` | [herdr](https://herdr.dev/docs/configuration/) agent workspace | The script links only `config.toml`, because herdr keeps runtime files in the same directory. |
 | `config/tmux` | tmux | tmux 3.1 and later read `~/.config/tmux/tmux.conf`. The Tokyo Night colors need tmux 3.6 or later. Older versions use the default tmux colors. |
 | `config/nvim` | Neovim | Uses lazy.nvim, Mason and nvim-treesitter. |
@@ -98,6 +99,9 @@ brew install tmux herdr
 
 # Terminals: Ghostty, iTerm2, or both
 brew install --cask ghostty iterm2
+
+# Optional: Ghosthub, one window for local and SSH tmux and herdr sessions
+brew install kenn-io/tap/ghosthub
 
 # Fonts
 brew install --cask font-fira-code font-symbols-only-nerd-font
@@ -221,7 +225,7 @@ Neovim also closes brackets and quotes as you type, and changes surrounding char
 You can use any combination of these tools: Ghostty or iTerm2, herdr or tmux, and Neovim or Vim. Each tool uses only standard terminal features, not the special features of one terminal:
 
 - **Keys.** All the shortcuts use standard terminal keys: the prefix, `Ctrl` and `Space`. No shortcut uses `Cmd`. In both terminals, the left Option key is Alt (Meta), so the Alt shortcuts in the shell and in Neovim are the same. The right Option key types special characters.
-- **Colors.** All the tools use true color. Each terminal sets its own `TERM` value: `xterm-ghostty`, `xterm-256color` or `tmux-256color`. No file overrides `TERM`.
+- **Colors.** All the tools use true color. Each terminal sets its own `TERM` value: `xterm-ghostty`, `xterm-256color` or `tmux-256color`. Only the Ghosthub file sets `TERM`, to its own default, `xterm-256color`.
 - **Light and dark mode.** The terminal changes its palette when macOS changes its appearance. tmux and Neovim get the background color from the terminal. herdr gets the setting from macOS directly.
 - **Clipboard.** The tools use OSC 52 for the clipboard. Thus, tmux copy mode, herdr and Neovim can copy to the macOS clipboard through any terminal that permits it. This also works over SSH.
 - **Icons.** The icons in Neovim need the Nerd Font symbols. Ghostty includes these symbols. The iTerm2 profile sets them as the font for non-ASCII characters.
@@ -238,6 +242,11 @@ The two terminals are different in these ways:
 | Copy a herdr selection | `Cmd+C` or `Ctrl+C` | `Ctrl+C` |
 
 The colors in both terminals come from [iTerm2-Color-Schemes](https://iterm2colorschemes.com/). Ghostty includes these color schemes as its themes. Select the theme only on the `theme =` line in the Ghostty configuration. After you change this line or update Ghostty, run `python3 iterm2/generate.py`. This script makes the iTerm2 profile again with the same palettes. The profile also uses the same font and line height as Ghostty.
+
+Ghosthub uses the Ghostty engine, and `config/ghosthub/ghostty.conf` includes the Ghostty configuration, so the theme, font and keys are the same. Ghosthub attaches to tmux and herdr sessions as an ordinary client, so their keys and settings stay the same too. Two differences:
+
+- When Ghosthub creates a tmux session, it sets that session's status bar and message colors from its **Tmux Theme** setting. This replaces the Tokyo Night bar, which switches between light and dark. To keep the bar, create sessions in a shell (`tmux new -s <name>`) and open them in Ghosthub. Ghosthub does not change the colors of sessions it only attaches to.
+- Ghosthub can write a "managed terminal settings" block into `ghostty.conf`, which is a file in this repository. If `git status` shows this change, commit the block or remove it.
 
 Neovim gets its colors from tokyonight.nvim. Some ANSI colors in tokyonight.nvim are slightly different from the colors in the terminal palette.
 
