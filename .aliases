@@ -17,6 +17,9 @@ alias dt="cd ~/Desktop"
 alias p="cd ~/Projects"
 alias g="git"
 
+# Second Claude Code account, with its own login, history and settings
+alias claude-ultra='CLAUDE_CONFIG_DIR="$HOME/.claude-ultra" claude'
+
 # File colours from the terminal's (Tokyo Night) palette: directories blue,
 # links cyan, executables green, archives red, media magenta. LS_COLORS is
 # also read by GNU ls, tree and fd; LSCOLORS is the same scheme for macOS ls.
