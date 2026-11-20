@@ -1,5 +1,8 @@
 # https://ghostty.org/docs/config/reference
 
+# Use Homebrew bash without changing the account's login shell.
+command = /opt/homebrew/bin/bash --login
+
 # Follows macOS appearance; tmux, herdr and Neovim follow along
 theme = "dark:TokyoNight Storm,light:TokyoNight Day"
 

@@ -110,7 +110,7 @@ brew install --cask font-fira-code font-symbols-only-nerd-font
 Also do these steps:
 
 - **Install Node.js with nvm.** Neovim uses Node.js for language servers and formatters. See [Neovim tools](#neovim-tools).
-- **Make Homebrew bash your login shell.** See [Bash from Homebrew](#bash-from-homebrew). The bash 3.2 that macOS supplies does not have some options that these files use.
+- **Use Homebrew bash.** Ghostty, Ghosthub and the iTerm2 profile launch it directly. To use it in other terminals, see [Bash from Homebrew](#bash-from-homebrew). The bash 3.2 that macOS supplies does not have some options that these files use.
 
 These tools are optional. Some aliases and functions need them:
 
@@ -242,6 +242,8 @@ The two terminals are different in these ways:
 | Copy a herdr selection | `Cmd+C` or `Ctrl+C` | `Ctrl+C` |
 
 The colors in both terminals come from [iTerm2-Color-Schemes](https://iterm2colorschemes.com/). Ghostty includes these color schemes as its themes. Select the theme only on the `theme =` line in the Ghostty configuration. After you change this line or update Ghostty, run `python3 iterm2/generate.py`. This script makes the iTerm2 profile again with the same palettes. The profile also uses the same font and line height as Ghostty.
+
+Ghostty and Ghosthub launch Homebrew bash directly, so you do not need to change your account's login shell. Ghosthub reads the Ghostty config through `config/ghosthub/ghostty.conf`. The iTerm2 profile also sets a custom command. These settings use `/opt/homebrew/bin/bash`; if Homebrew is installed elsewhere, change the path in `config/ghostty/config.ghostty` and `iterm2/generate.py`, then regenerate the profile with `python3 iterm2/generate.py`.
 
 Ghosthub uses the Ghostty engine, and `config/ghosthub/ghostty.conf` includes the Ghostty configuration, so the theme, font and keys are the same. Ghosthub attaches to tmux and herdr sessions as an ordinary client, so their keys and settings stay the same too. Two differences:
 
@@ -522,7 +524,7 @@ To install Homebrew, use the official command:
 
 ### Bash from Homebrew
 
-To use the Homebrew version of bash as your login shell:
+The terminal configurations launch Homebrew bash without changing your account's login shell. To use Homebrew bash in other terminals as well, set it as your login shell:
 
 1. Get the location of Homebrew:
 

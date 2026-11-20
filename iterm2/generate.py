@@ -33,6 +33,8 @@ THEME_DIRS = [
 PROFILE = {
     "Name": "Dotfiles",
     "Guid": "7d1f3c2e-5b8a-4e6f-9c0d-2a1b3c4d5e6f",
+    "Custom Command": "Yes",
+    "Command": "/opt/homebrew/bin/bash",
     "Normal Font": "FiraCode-Regular 12",
     "Use Non-ASCII Font": True,
     "Non Ascii Font": "SymbolsNFM 12",  # Nerd Font icons (font-symbols-only-nerd-font)
